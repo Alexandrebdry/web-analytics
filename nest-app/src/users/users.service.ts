@@ -38,6 +38,50 @@ export class UsersService {
     }
   }
 
+  
+  async update(user: User): Promise<User> {
+    try {
+        const updatedUser = await this.prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                ...user
+            }
+        });
+
+        return {
+            ...updatedUser,
+            password: undefined
+        };
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+  }
+
+  async updatePassword(user: User, password: string): Promise<User> {
+    const cryptedPassword = await bcrypt.hash(password, 10);
+
+    try {
+        const updatedUser = await this.prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                password: cryptedPassword
+            }
+        });
+
+        return {
+            ...updatedUser,
+            password: undefined
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
+  }  
+
   async find(id: number): Promise<User | undefined> {
     return await this.prisma.user.findUnique({
         where: {
