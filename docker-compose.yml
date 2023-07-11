@@ -7,43 +7,41 @@ services:
   # =============================================================
 
   vitrine:
-    build:
-      context: ./ItetsuLaTable
+    image: node:18-alpine
+    working_dir: /app
     ports:
       - "80:80"
     volumes:
       - ./ItetsuLaTable:/app
-    stdin_open: true
-    tty: true
+    command: sh -c "npm install && npm run start"
+
 
   # =============================================================
   # FRONT REACT
   # =============================================================
 
   front:
-    build:
-      context: ./front
+    image: node:18-alpine
+    working_dir: /app
     ports:
       - "5173:5173"
     volumes:
       - ./front:/app
-    stdin_open: true
-    tty: true
+    command: sh -c "npm install && npm run dev"
+
 
   # =============================================================
   # API NEST
   # =============================================================
 
   api:
-    build:
-      context: ./nest-app
-    tty: true
-    stdin_open: true
+    image: node:18-alpine
+    working_dir: /usr/src/app
     volumes:
       - ./nest-app:/usr/src/app
-    command: npm run start:dev
     ports:
       - "3000:3000"
+    command: sh -c "npm install && npm run start:dev"
 
   # =============================================================
   # POSTGRES

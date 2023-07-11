@@ -26,6 +26,8 @@
     "react-scroll-navigate": "^1.0.1",
     "react-tsparticles": "^2.9.3",
     "react-viewport-detect": "^1.0.2",
+    "run": "^1.4.0",
+    "start": "^5.1.0",
     "swiper": "^9.1.0",
     "tsparticles": "^2.9.3"
   },

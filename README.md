@@ -8,10 +8,6 @@ analytics / le backoffice de la plateforme.
 
 ## Getting Started
 
-### Install Dependencies:
-```bash
-cd front && npm i && cd ../ItetsuLaTable && npm i && cd ../nest-app && npm i && cd ..
-```
 
 ### Launch the project:
 
@@ -19,12 +15,12 @@ cd front && npm i && cd ../ItetsuLaTable && npm i && cd ../nest-app && npm i && 
 
 Rebuild the containers:
 ```bash
-docker-compose up -d --remove-orphans --force-recreate --build
+docker compose up -d --remove-orphans --force-recreate --build
 ```
 
 Up the containers:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 #### Using NPM:
