@@ -2,6 +2,7 @@ import {useAuthContext} from "../providers/AuthProvider.jsx";
 import NotFoundPage from "../pages/error/NotFoundPage.jsx";
 import {useNavigate} from "react-router-dom";
 import {hasPermissions, PERMISSIONS, useRole} from "./permissions.js";
+import {TOKEN} from "../main.jsx";
 
 export default function SecuredPage({children, scopes = []}) {
     const { user } = useAuthContext() ;
@@ -24,7 +25,7 @@ export default function SecuredPage({children, scopes = []}) {
             return children ;
         }
     }
-    else if (localStorage.getItem(import.meta.env.TOKEN_SECRET) === null) {
+    else if (localStorage.getItem(TOKEN) === null) {
         navigate('/login') ;
     }
 }

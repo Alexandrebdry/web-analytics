@@ -1,6 +1,8 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {profile} from "../services/AuthService.js";
+import {TOKEN} from "../main.jsx";
+
 
 const AuthContext = createContext({});
 
@@ -13,7 +15,7 @@ export default function AuthProvider( {children} ) {
     useEffect(() => {
 
         if( user === null ) {
-            const token = localStorage.getItem(import.meta.env.TOKEN_SECRET);
+            const token = localStorage.getItem(TOKEN);
             if (!token) {
                 if( location.pathname !== '/login' ) {
                    if( location.pathname !== '/register' ) {
@@ -24,12 +26,14 @@ export default function AuthProvider( {children} ) {
                       }
                    }
                 }
-
+            } else {
                 profile().then((response) => {
                     setUser(response.data);
                 }) ;
             }
+
         }
+
     }, []);
 
 
