@@ -15,12 +15,12 @@ analytics / le backoffice de la plateforme.
 
 Rebuild the containers:
 ```bash
-docker-compose up -d --remove-orphans --force-recreate --build
+docker compose up -d --remove-orphans --force-recreate --build
 ```
 
 Up the containers:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 #### Using NPM:
