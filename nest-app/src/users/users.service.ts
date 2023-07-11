@@ -55,6 +55,34 @@ export class UsersService {
     }
   }
 
+  async validate(userId: number): Promise<User> {
+    try {
+        const updatedUser = await this.prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                isVerified: true
+            }
+        });
+        
+        this.mailerService
+            .sendMail({
+                to: updatedUser.email, // list of receivers
+                from: 'noreply@web_deathliveroo.com', // sender address
+                subject: 'Votre compte est validé !', // Subject line
+                text: 'Votre compte est validé !', // plaintext body
+                html: 'Votre compte est validé !', // HTML body content
+            });
+
+        return {
+            ...updatedUser,
+            password: undefined
+        };
+    } catch (error) {
+        throw new Error(error);
+    }
+  }
   
   async update(user: User): Promise<User> {
     try {
