@@ -7,6 +7,10 @@ export type User = {
     username: string;
     email: string;
     password: string;
+
+    companyName: string;
+    companyKBIS: string;
+    companyURL: string;
 };
 
 @Injectable()
@@ -20,8 +24,7 @@ export class UsersService {
     try {
         const newUser = await this.prisma.user.create({
             data: {
-                username: user.username,
-                email: user.email,
+                ...user,
                 password: cryptedPassword
             }
         });
