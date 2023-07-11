@@ -8,10 +8,6 @@ analytics / le backoffice de la plateforme.
 
 ## Getting Started
 
-### Install Dependencies:
-```bash
-cd front && npm i && cd ../ItetsuLaTable && npm i && cd ../nest-app && npm i && cd ..
-```
 
 ### Launch the project:
 
