@@ -1,0 +1,91 @@
+* {
+    box-sizing: border-box;
+}
+
+html , body {
+    margin: 0 ;
+    padding : 0;
+    background-color: var(--text-white);
+    color: var(--text-black) ;
+}
+
+:root {
+    --backgroundColor : #702F00 ;
+    --color-secondary : #CC5F12 ;
+    --color-secondary-hover : #AA2C12 ;
+
+    --swiper-theme-color : var(--color-secondary) ;
+
+    --text-white : #EEEEEE ;
+    --text-white-hover : #ABABAB ;
+    --text-black : #323232 ;
+}
+.tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 0; /* if you use -1 you have to set to `"window"` the interactivity.detectsOn property */
+}
+
+
+
+.swiper {
+    width: 100%;
+    min-height: 40vh;
+}
+
+.swiper-slide {
+    text-align: center;
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    margin-top: 15px ;
+    margin-bottom: 15px;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.autoplay-progress {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--swiper-theme-color);
+}
+
+.autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 4px;
+    stroke: var(--swiper-theme-color);
+    fill: none;
+    stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+}
+
+
+

@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+
+  # =============================================================
+  # FRONT Test
+  # =============================================================
+
+  vitrine:
+    build:
+      context: ./ItetsuLaTable
+    ports:
+      - "80:80"
+    volumes:
+      - ./ItetsuLaTable:/app
+    stdin_open: true
+    tty: true
+
+  # =============================================================
+  # FRONT REACT
+  # =============================================================
+
+  front:
+    build:
+      context: ./front
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./front:/app
+    stdin_open: true
+    tty: true
+
+  # =============================================================
+  # API NEST
+  # =============================================================
+
+  api:
+    build:
+      context: ./nest-app
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./nest-app:/usr/src/app
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+
+  # =============================================================
+  # POSTGRES
+  # =============================================================
+
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  # =============================================================
+  # MONGODB
+  # =============================================================
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - target: 27017
+        published: 27017
+        protocol: tcp
+    volumes:
+      - ./mongodb:/data/db

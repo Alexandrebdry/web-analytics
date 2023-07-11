@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>https://itetsulatable..com/</loc>
+        <lastmmod>2013-03-12</lastmmod>
+        <changefreq>weekly</changefreq>
+        <priority>1</priority>
+    </url>
+
+    <url>
+        <loc>https://itetsulatable..com/competences</loc>
+        <lastmmod>2013-03-12</lastmmod>
+        <priority>0.5</priority>
+    </url>
+
+    <url>
+        <loc>https://itetsulatable..com/services</loc>
+        <lastmmod>2013-03-12</lastmmod>
+        <priority>0.5</priority>
+    </url>
+
+    <url>
+        <loc>https://itetsulatable..com/a-propos</loc>
+        <lastmmod>2013-03-12</lastmmod>
+        <priority>0.5</priority>
+    </url>
+
+    <url>
+        <loc>https://itetsulatable..com/contact</loc>
+        <lastmmod>2013-03-12</lastmmod>
+        <priority>0.5</priority>
+    </url>
+
+</urlset>
