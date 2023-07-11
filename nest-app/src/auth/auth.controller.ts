@@ -21,8 +21,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    const user = req.user;
-    
     return {
       ...req.user,
       password: undefined,

@@ -16,4 +16,7 @@ model User {
   companyName String
   companyKBIS String
   companyURL String
+
+  isVerified Boolean @default(false)
+  roles String[]
 }

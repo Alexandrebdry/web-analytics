@@ -16,7 +16,7 @@ export class UsersController {
     }
 
     Object.keys(userDto).forEach(key => {
-      if (key !== 'password') {
+      if (!['id', 'password', 'roles'].includes(key)) {
         user[key] = userDto[key];
       }
     });

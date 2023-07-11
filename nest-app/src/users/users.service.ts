@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import * as bcrypt from 'bcrypt';
+import { MailerService } from '@nestjs-modules/mailer';
 
 export type User = {
     id?: number;
@@ -11,13 +12,20 @@ export type User = {
     companyName: string;
     companyKBIS: string;
     companyURL: string;
+
+    isVerified: boolean;
+    roles: string[];
 };
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly mailerService: MailerService
+  ) {}
 
   async create(user: User): Promise<User> {
+    user.roles = [];
     const password = user.password;
     const cryptedPassword = await bcrypt.hash(password, 10);
 
@@ -28,6 +36,15 @@ export class UsersService {
                 password: cryptedPassword
             }
         });
+
+        this.mailerService
+            .sendMail({
+                to: newUser.email, // list of receivers
+                from: 'noreply@web_deathliveroo.com', // sender address
+                subject: 'Bienvenue, encore un peu de patience !', // Subject line
+                text: 'Votre compte est en attente de validation par un administrateur.', // plaintext body
+                html: 'Votre compte est en attente de validation par un administrateur.', // HTML body content
+            });
 
         return {
             ...newUser,
