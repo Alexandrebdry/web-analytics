@@ -7,22 +7,29 @@ const prisma = new PrismaClient();
 async function main() {
     dotenv.config();
 
+    await prisma.conversionFunnelTag.deleteMany();
+    await prisma.conversionFunnel.deleteMany();
     await prisma.tag.deleteMany();
     await prisma.user.deleteMany();
-    console.log('DATABASE CLEANED');
 
+    console.log('DATABASE CLEANED');
     console.log('==============');
 
     await seedUsers();
     console.log('USERS SEEDED');
-
     console.log('==============');
 
     await seedTags();
     console.log('TAGS SEEDED');
-
     console.log('==============');
 
+    await seedConversionFunnels();
+    console.log('CONVERSION FUNNELS SEEDED');
+    console.log('==============');
+
+    await seedConversionFunnelsTags();
+    console.log('CONVERSION FUNNELS TAGS SEEDED');
+    console.log('==============');
 
     console.log('SEED DONE');
 }
@@ -114,16 +121,6 @@ interface Tag {
     companyName: string;
 };
 
-async function seedTags() {
-    for (const tag of tags) {
-        await prisma.tag.create({
-            data: {
-                ...tag
-            }
-        });
-    }
-}
-
 const tags: Tag[] = [
     {
         comment: 'Tag Admin - 1',
@@ -166,6 +163,115 @@ const tags: Tag[] = [
         companyName: companies[2]
     },
 ];
+const savedTags: Tag[] = [];
+
+
+async function seedTags() {
+    for (const tag of tags) {
+        const newTag = await prisma.tag.create({
+            data: {
+                ...tag
+            }
+        });
+        savedTags.push(newTag);
+    }
+}
+
+/* ====================
+CONVERSION FUNNELS
+==================== */
+
+interface ConversionFunnel {
+    id?: number;
+    comment: string;
+    companyName: string;
+    tags?: any[];
+    deleted?: boolean;
+};
+
+const conversionFunnels: ConversionFunnel[] = [
+    {
+        comment: 'Conversion Funnel Admin - 1',
+        companyName: companies[0]
+    },
+    {
+        comment: 'Conversion Funnel Admin - 2',
+        companyName: companies[0]
+    },
+    {
+        comment: 'Conversion Funnel Admin - 3',
+        companyName: companies[0]
+    },
+    {
+        comment: 'Conversion Funnel Maintainer - 1',
+        companyName: companies[1]
+    },
+    {
+        comment: 'Conversion Funnel Maintainer - 2',
+        companyName: companies[1]
+    },
+    {
+        comment: 'Conversion Funnel User - 1',
+        companyName: companies[2]
+    },
+    {
+        comment: 'Conversion Funnel User - 2',
+        companyName: companies[2]
+    },
+    {
+        comment: 'Conversion Funnel User - 3',
+        companyName: companies[2]
+    },
+];
+
+const savedConversionFunnels: ConversionFunnel[] = [];
+
+async function seedConversionFunnels() {
+    for (const conversionFunnel of conversionFunnels) {
+        const newConversionFunnel = await prisma.conversionFunnel.create({
+            data: {
+                comment: conversionFunnel.comment,
+                companyName: conversionFunnel.companyName
+            }
+        });
+        savedConversionFunnels.push(newConversionFunnel);
+    }
+}
+
+/* ====================
+CONVERSION FUNNELS TAGS
+==================== */
+
+interface ConversionFunnelTag {
+    id?: number;
+    conversionFunnelId: number;
+    tagId: number;
+};
+
+const savedConversionFunnelTags: ConversionFunnelTag[] = [];
+
+async function seedConversionFunnelsTags() {
+    for (const conversionFunnel of savedConversionFunnels) {
+        const randomTags = [];
+        for (let i = 0; i < 3; i++) {
+            const randomTag = savedTags[Math.floor(Math.random() * savedTags.length)];
+            if (!randomTags.includes(randomTag)) {
+                randomTags.push(randomTag);
+            }
+        }
+
+        for (const tag of randomTags) {
+            const newConversionFunnelTag = await prisma.conversionFunnelTag.create({
+                data: {
+                    conversionFunnelId: conversionFunnel.id,
+                    tagId: tag.id
+                }
+            });
+
+            savedConversionFunnelTags.push(newConversionFunnelTag);
+        }
+    }
+}
 
 main()
 .catch((e) => console.error(e))
