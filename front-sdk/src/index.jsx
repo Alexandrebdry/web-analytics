@@ -12,8 +12,8 @@ export default function AnalyticsSDK ({ appID, appSECRET }) {
 
     useEffect(() => {
 
-        isAppRegistered(appID, appSECRET, (isRegistered) => {
-            setIsRegistered(isRegistered) ;
+        isAppRegistered(appID, appSECRET, (data) => {
+            setIsRegistered(data) ;
         }) ;
 
     },[]) ;
