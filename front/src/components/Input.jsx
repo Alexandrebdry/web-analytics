@@ -6,6 +6,7 @@ export default function Input ({
     errorMessage ,
     value ,
     callback ,
+    autoComplete = "off"
 }) {
 
     const color = error ? "input-error w-full input input-bordered  max-w-sm" : "input-primary w-full input input-bordered  max-w-sm";
@@ -16,6 +17,7 @@ export default function Input ({
                 <span className="label-text">{label}</span>
             </label>
             <input
+                autoComplete={autoComplete}
                 type={type}
                 value={value}
                 onChange={(event) => {
