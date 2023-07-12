@@ -16,6 +16,7 @@ analytics / le backoffice de la plateforme.
 Rebuild the containers:
 ```bash
 docker compose up -d --remove-orphans --force-recreate --build
+npx prisma generate dev && npx prisma migrate dev
 ```
 
 Up the containers:

@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
+    const navigate = useNavigate();
     return (
-        <div className="card bordered">
+        <div
+            className="card bordered bg-white shadow-lg"
+            onClick={() => navigate("../app/" + project.id)}
+        >
             <div className="card-body">
-                <h2 className="card-title">{project.name}</h2>
-                <p>{project.description}</p>
+                <h2 className="card-title text-black">{project.name}</h2>
+                <p className="text-gray-700">{project.description}</p>
             </div>
         </div>
     );
@@ -13,7 +18,7 @@ const ProjectCard = ({ project }) => {
 
 const NewProjectCard = () => {
     return (
-        <div className="card bordered">
+        <div className="card bordered bg-white shadow-lg">
             <div className="card-body">
                 <div className="justify-center card-actions">
                     <button className="btn btn-primary">
@@ -40,7 +45,6 @@ const NewProjectCard = () => {
 };
 
 export default function HomePage() {
-    // Pour cet exemple, nous créons des projets fictifs.
     const [projects, setProjects] = useState([
         { id: 1, name: "Projet 1", description: "Description du Projet 1" },
         { id: 2, name: "Projet 2", description: "Description du Projet 2" },
@@ -48,6 +52,9 @@ export default function HomePage() {
 
     return (
         <div className="p-6">
+            <h1 className="text-2xl font-semibold text-center">
+                Welcome username
+            </h1>
             <div className="mt-4">
                 <NewProjectCard />
             </div>
