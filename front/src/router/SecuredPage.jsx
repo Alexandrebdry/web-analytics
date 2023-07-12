@@ -2,7 +2,7 @@ import {useAuthContext} from "../providers/AuthProvider.jsx";
 import NotFoundPage from "../pages/error/NotFoundPage.jsx";
 import {useNavigate} from "react-router-dom";
 import {hasPermissions, PERMISSIONS, useRole} from "./permissions.js";
-import {TOKEN} from "../main.jsx";
+import { TOKEN } from "../services/apiConstantes.js";
 
 export default function SecuredPage({children, scopes = []}) {
     const { user } = useAuthContext() ;
