@@ -7,15 +7,13 @@ import {TOKEN} from "../main.jsx";
 const AuthContext = createContext({});
 
 export default function AuthProvider( {children} ) {
-
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
-
-        if( user === null ) {
-            const token = localStorage.getItem(TOKEN);
+        if(user === null) {
+            const token = localStorage.getItem('token');
             if (!token) {
                 if( location.pathname !== '/login' ) {
                    if( location.pathname !== '/register' ) {
@@ -29,11 +27,9 @@ export default function AuthProvider( {children} ) {
             } else {
                 profile().then((response) => {
                     setUser(response.data);
-                }) ;
+                });
             }
-
         }
-
     }, []);
 
 
