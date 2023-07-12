@@ -39,3 +39,12 @@ Launch the test website:
 ```bash
 cd ItetsuLaTable && npm run start
 ```
+
+### Init the postgres database:
+
+Create the .env file using the .env.example file:
+
+
+```bash
+npx prisma migrate dev --name init
+```

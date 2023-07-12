@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
@@ -9,17 +9,18 @@ datasource db {
 }
 
 model User {
-  id    Int     @default(autoincrement()) @id
-  username String
-  email String  @unique
-  password String
+  id          Int    @default(autoincrement()) @id
+  username    String
+  email       String @unique
+  password    String
   companyName String
   companyKBIS String
-  companyURL String
+  companyURL  String
 
-  isVerified Boolean @default(false)
-  roles String[]
-
+  isVerified Boolean  @default(false)
+  roles      String[]
+  reports    Report[]
+  tags       Tag[]
   credentials Credentials[]
 }
 
@@ -32,11 +33,12 @@ model Credentials {
 }
 
 model Tag {
-  id    Int     @default(autoincrement()) @id
+  id      Int     @default(autoincrement()) @id
   comment String
-  companyName String
   conversionFunnel ConversionFunnelTag[]
   deleted Boolean @default(false)
+  userId  Int
+  user    User    @relation(fields: [userId], references: [id])
 }
 
 model ConversionFunnel {
@@ -53,4 +55,27 @@ model ConversionFunnelTag {
   tagId Int
   conversionFunnel ConversionFunnel @relation(fields: [conversionFunnelId], references: [id])
   conversionFunnelId Int
+}
+
+model Report {
+  id                Int               @default(autoincrement()) @id
+  filters           Json
+  timeScaleStart    DateTime
+  timeScaleEnd      DateTime
+  timeScaleStep     Int // Step de l'échelle de temps, en minutes
+  dataType          DataType
+  visualizationType VisualizationType
+  userId            Int
+  user              User              @relation(fields: [userId], references: [id])
+}
+
+enum DataType {
+  absolu
+  taux
+}
+
+enum VisualizationType {
+  KPI
+  Graphe
+  Heatmap
 }

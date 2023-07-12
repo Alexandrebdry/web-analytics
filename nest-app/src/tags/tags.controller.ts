@@ -1,7 +1,8 @@
 import { Body, Controller, Post, UseGuards, Request, Get, Param, Put, Delete } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { TagsDto } from './tags.dto';
+import { CreateTagDto } from './dto/create-tag.dto';
+import {UpdateTagDto} from "./dto/update-tag.dto";
 import { SdkGuard } from 'src/credentials/sdk.guard';
 
 @Controller('tags')
@@ -10,14 +11,14 @@ export class TagsController {
 
   @Get('')
   @UseGuards(AuthGuard)
-  findCompany(@Request() req) {
-    return this.tagsService.findCompany(req.user.companyName);
+  findAll(@Request() req) {
+    return this.tagsService.findAllByUser(req.user);
   }
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  find(@Param('id') id: number, @Request() req) {
-    return this.tagsService.find(id, req.user.companyName);
+  findOne(@Param('id') id: number) {
+    return this.tagsService.find(id);
   }
 
   @Get('comment/:comment')
@@ -26,22 +27,21 @@ export class TagsController {
     return this.tagsService.findByComment(comment, req.user.companyName);
   }
 
-  @Post('create')
+  @Post()
   @UseGuards(AuthGuard)
-  create(@Body() tagDto: TagsDto, @Request() req) {
-    tagDto.companyName = req.user.companyName;
-    return this.tagsService.create(tagDto);
+  create(@Body() tagDto: CreateTagDto, @Request() req) {
+    return this.tagsService.create(req.user, tagDto);
   }
 
-  @Put('update')
+  @Patch(':id')
   @UseGuards(AuthGuard)
-  update(@Body() tagDto: TagsDto, @Request() req) {
-    return this.tagsService.update(tagDto, req.user.companyName);
+  update(@Param('id') id: string, @Body() tagDto: UpdateTagDto, @Request() req) {
+    return this.tagsService.update(+id, tagDto);
   }
 
   @Delete('delete/:id')
   @UseGuards(AuthGuard)
   delete(@Param('id') id: string) {
-    return this.tagsService.delete(parseInt(id));
+    return this.tagsService.delete(+id);
   }
 }
