@@ -7,9 +7,17 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { TagsModule } from './tags/tags.module';
 import { ConversionFunnelsModule } from './conversion_funnels/conversion.funnels.module';
+import { SessionModule } from './session/session.module';
+import { ConnectionModule } from './connection/connection.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
     MailerModule.forRoot({
       transport: {
         host: process.env.MAILER_TRANSPORT,
@@ -26,11 +34,14 @@ import { ConversionFunnelsModule } from './conversion_funnels/conversion.funnels
         ignoreTLS: true,
       },
     }),
+    MongooseModule.forRoot(process.env.MONGO_URL),
     AuthModule, 
     UsersModule,
     RolesModule,
     TagsModule,
-    ConversionFunnelsModule
+    ConversionFunnelsModule,
+    SessionModule,
+    ConnectionModule
   ],
   controllers: [AppController],
   providers: [AppService],
