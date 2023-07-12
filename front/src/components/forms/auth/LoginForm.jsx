@@ -1,8 +1,10 @@
 import Input from "../../Input";
 import {useState} from "react";
 import Button from "../../Button.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Checkbox from "../../Checkbox.jsx";
+import {login} from "../../../services/AuthService.js";
+import {TOKEN} from "../../../services/apiConstantes.js";
 
 export default function LoginForm() {
 
@@ -10,24 +12,35 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        setError(false)
-        setTimeout(() => {
-            setLoading(false);
-            setError(true);
-        }, 2000)
+        setError(false);
 
-    }
+        try  {
+            const response = await login(email, password);
+
+            if (response.token) {
+                localStorage.setItem(TOKEN, response.token);
+                navigate("/");
+            }
+        } catch(error) {
+            setError(true);
+            setPassword("") ;
+        }
+
+        setLoading(false) ;
+
+    };
 
     return (
         <form className={"my-4"} onSubmit={handleSubmit}>
             <Input
                 value={email}
                 callback={setEmail}
-                type={"text"}
+                type={"email"}
                 label={"Email"}
                 placeholder={"john@doe.fr"}
                 error={error}

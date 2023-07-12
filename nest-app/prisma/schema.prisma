@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  username String
+  email String  @unique
+  password String
+  companyName String
+  companyKBIS String
+  companyURL String
+
+  isVerified Boolean @default(false)
+  roles String[]
+}
+
+model Tag {
+  id    Int     @default(autoincrement()) @id
+  comment String
+  companyName String
+  conversionFunnel ConversionFunnelTag[]
+  deleted Boolean @default(false)
+}
+
+model ConversionFunnel {
+  id    Int     @default(autoincrement()) @id
+  comment String
+  companyName String
+  tags ConversionFunnelTag[]
+  deleted Boolean @default(false)
+}
+
+model ConversionFunnelTag {
+  id    Int     @default(autoincrement()) @id
+  tag Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+  conversionFunnel ConversionFunnel @relation(fields: [conversionFunnelId], references: [id])
+  conversionFunnelId Int
+}
