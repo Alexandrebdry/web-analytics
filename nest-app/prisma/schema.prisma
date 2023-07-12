@@ -25,5 +25,22 @@ model Tag {
   id    Int     @default(autoincrement()) @id
   comment String
   companyName String
+  conversionFunnel ConversionFunnelTag[]
   deleted Boolean @default(false)
+}
+
+model ConversionFunnel {
+  id    Int     @default(autoincrement()) @id
+  comment String
+  companyName String
+  tags ConversionFunnelTag[]
+  deleted Boolean @default(false)
+}
+
+model ConversionFunnelTag {
+  id    Int     @default(autoincrement()) @id
+  tag Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+  conversionFunnel ConversionFunnel @relation(fields: [conversionFunnelId], references: [id])
+  conversionFunnelId Int
 }

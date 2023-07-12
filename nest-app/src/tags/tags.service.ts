@@ -50,10 +50,11 @@ export class TagsService {
   }
 
 
-  async find(id: number): Promise<Tag> {
+  async find(id: number, companyName: string): Promise<Tag> {
     return this.prisma.tag.findUnique({
         where: {
-            id: id
+            id: id,
+            companyName: companyName
         }
     });
   }

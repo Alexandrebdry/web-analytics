@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { TagsModule } from './tags/tags.module';
+import { ConversionFunnelsModule } from './conversion_funnels/conversion.funnels.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TagsModule } from './tags/tags.module';
     UsersModule,
     RolesModule,
     TagsModule,
+    ConversionFunnelsModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -15,8 +15,8 @@ export class TagsController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  find(@Param('id') id: number) {
-    return this.tagsService.find(id);
+  find(@Param('id') id: number, @Request() req) {
+    return this.tagsService.find(id, req.user.companyName);
   }
 
   @Post('create')
