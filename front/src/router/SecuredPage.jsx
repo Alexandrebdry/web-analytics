@@ -7,7 +7,7 @@ import {TOKEN} from "../services/apiConstantes.js";
 export default function SecuredPage({children, scopes = []}) {
     const { user } = useAuthContext() ;
     const navigate = useNavigate() ;
-    if(user && user.role) {
+    if(user && user.roles) {
         const role  = useRole(user) ;
 
         // @ts-ignore
@@ -22,8 +22,8 @@ export default function SecuredPage({children, scopes = []}) {
             if(!isGranted) {
                 return <NotFoundPage/> ;
             }
-            return children ;
-        }
+
+        }return children ;
     }
     else if (localStorage.getItem(TOKEN) === null) {
         navigate('/login') ;

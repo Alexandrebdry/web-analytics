@@ -13,7 +13,7 @@ export default function AuthProvider( {children} ) {
 
     useEffect(() => {
         if(user === null) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem(TOKEN);
             if (!token) {
                 if( location.pathname !== '/login' ) {
                    if( location.pathname !== '/register' ) {
@@ -26,7 +26,7 @@ export default function AuthProvider( {children} ) {
                 }
             } else {
                 profile().then((response) => {
-                    setUser(response.data);
+                    setUser(response);
                 });
             }
         }

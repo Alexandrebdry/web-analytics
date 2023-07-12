@@ -27,7 +27,7 @@ const useRoutes = () => {
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route}  />
     });
 }
 
@@ -44,7 +44,7 @@ const useAdminRoute = () => {
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route}  />
     });
 }
 
@@ -73,7 +73,7 @@ const useAuthRoute = () => {
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route} />
     });
 }
 
@@ -85,7 +85,7 @@ export default function Router() {
     return (
         <Suspense>
             <Routes>
-                <Route path={'/'} element={<AppLayout/>}>
+                <Route path={''} element={<AppLayout/>}>
                     {
                         routes.map(route => route)
                     }
