@@ -8,6 +8,7 @@ const AuthContext = createContext({});
 
 export default function AuthProvider( {children} ) {
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -26,15 +27,22 @@ export default function AuthProvider( {children} ) {
                 }
             } else {
                 profile().then((response) => {
+                    if(response && response.statusCode && response.statusCode === 401) {
+                        localStorage.removeItem(TOKEN);
+                        navigate('/login');
+                    }
                     setUser(response);
+                }).catch((error) => {
+                    localStorage.removeItem(TOKEN);
+                    navigate('/login');
                 });
             }
         }
-    }, []);
+    }, [token]);
 
 
     return (
-        <AuthContext.Provider value={{user,setUser}}>
+        <AuthContext.Provider value={{user,setUser, setToken}}>
             {children}
         </AuthContext.Provider>
     )

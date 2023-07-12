@@ -10,7 +10,6 @@ export default function SecuredPage({children, scopes = []}) {
     if(user && user.roles) {
         const role  = useRole(user) ;
 
-        // @ts-ignore
         if(scopes.length > 0 ) {
             let permissions
             if(role) {
@@ -22,8 +21,8 @@ export default function SecuredPage({children, scopes = []}) {
             if(!isGranted) {
                 return <NotFoundPage/> ;
             }
-
-        }return children ;
+        }
+        return children ;
     }
     else if (localStorage.getItem(TOKEN) === null) {
         navigate('/login') ;
