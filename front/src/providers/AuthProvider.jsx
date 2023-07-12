@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {profile} from "../services/AuthService.js";
-import {TOKEN} from "../main.jsx";
+import {TOKEN} from "../services/apiConstantes.js";
 
 
 const AuthContext = createContext({});
