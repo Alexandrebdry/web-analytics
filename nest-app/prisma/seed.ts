@@ -8,6 +8,7 @@ async function main() {
     dotenv.config();
 
     console.log('CLEAN DATABASE');
+    await prisma.tag.deleteMany();
     await prisma.user.deleteMany();
     console.log('DATABASE CLEANED');
 
