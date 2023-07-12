@@ -1,5 +1,5 @@
-import {API_URL} from "../main.jsx";
-import {TOKEN} from "../main.jsx";
+import { API_URL, TOKEN } from './apiConstantes.js';
+
 
 const AUTH_PREFIX = '/auth';
 
@@ -22,7 +22,7 @@ export const profile = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)
         }
     });
     return response.json();
