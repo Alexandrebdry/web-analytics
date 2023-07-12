@@ -20,3 +20,10 @@ model User {
   isVerified Boolean @default(false)
   roles String[]
 }
+
+model Tag {
+  id    Int     @default(autoincrement()) @id
+  comment String
+  companyName String
+  deleted Boolean @default(false)
+}
