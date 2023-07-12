@@ -26,12 +26,13 @@ export default function AuthProvider( {children} ) {
                 }
             } else {
                 profile().then((response) => {
-                    setUser(response.data);
+                    setUser(response);
                 });
             }
         }
     }, []);
 
+    console.log(user);
 
     return (
         <AuthContext.Provider value={{user,setUser}}>

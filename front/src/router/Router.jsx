@@ -11,6 +11,7 @@ import HomePage from "../pages/HomePage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import SecuredPage from "./SecuredPage.jsx";
 import {SCOPES} from "./permissions.js";
+import AdminUsersPage from "../pages/admin/AdminUsersPage.jsx";
 
 
 
@@ -23,7 +24,7 @@ const useRoutes = () => {
                 <SecuredPage scopes={[SCOPES.USER]}>
                     <HomePage/>
                 </SecuredPage>
-        }
+        },
     ];
 
     return routes.map((route) => {
@@ -40,11 +41,19 @@ const useAdminRoute = () => {
                 <SecuredPage scopes={[SCOPES.ADMIN]}>
                     <AdminPage/>
                 </SecuredPage>
+        },
+        {
+            name: 'admin-users',
+            path: '/admin/users',
+            element:
+                <SecuredPage scopes={[SCOPES.ADMIN]}>
+                    <AdminUsersPage />
+                </SecuredPage>
         }
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route} />
     });
 }
 
@@ -82,6 +91,7 @@ export default function Router() {
     const routes = useRoutes();
     const adminRoutes = useAdminRoute();
     const authRoutes = useAuthRoute();
+
     return (
         <Suspense>
             <Routes>

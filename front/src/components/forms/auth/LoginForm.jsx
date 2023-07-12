@@ -24,7 +24,7 @@ export default function LoginForm() {
 
             if (response.token) {
                 localStorage.setItem(TOKEN, response.token);
-                navigate("/");
+                navigate("/admin/users");
             }
         } catch(error) {
             setError(true);
