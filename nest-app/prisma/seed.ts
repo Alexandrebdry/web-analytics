@@ -107,7 +107,7 @@ const users: User[] = [
         companyURL: 'http://' + companies[2],
 
         isVerified: true,
-        roles: []
+        roles: ['ROLE_USER']
     }
 ];
 

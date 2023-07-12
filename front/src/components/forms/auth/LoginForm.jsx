@@ -5,9 +5,11 @@ import {Link, useNavigate} from "react-router-dom";
 import Checkbox from "../../Checkbox.jsx";
 import {login} from "../../../services/AuthService.js";
 import {TOKEN} from "../../../services/apiConstantes.js";
+import {useAuthContext} from "../../../providers/AuthProvider.jsx";
 
 export default function LoginForm() {
 
+    const {setToken} = useAuthContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -24,6 +26,7 @@ export default function LoginForm() {
 
             if (response.token) {
                 localStorage.setItem(TOKEN, response.token);
+                setToken(response.token);
                 navigate("/");
             }
         } catch(error) {
