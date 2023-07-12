@@ -16,6 +16,13 @@ export class UsersController {
     return this.usersService.validate(parseInt(id));
   }
 
+  @Get()
+  @Roles(RolesEnum.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
+  async findAll() {
+    return this.usersService.findAll();
+  }
+
   @Post('update')
   @UseGuards(AuthGuard)
   update(@Body() userDto: Record<string, any>, @Request() req) {
