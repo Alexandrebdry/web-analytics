@@ -140,4 +140,8 @@ export class UsersService {
       },
     });
   }
+
+  async findAll(): Promise<User[]> {
+    return await this.prisma.user.findMany();
+  }
 }

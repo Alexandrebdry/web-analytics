@@ -9,6 +9,7 @@ import ResetPasswordPage from "../pages/auth/ResetPasswordPage.jsx";
 import NotFoundPage from "../pages/error/NotFoundPage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
+import AdminUsersPage from "../pages/admin/AdminUsersPage.jsx";
 import SecuredPage from "./SecuredPage.jsx";
 import {SCOPES} from "./permissions.js";
 
@@ -39,6 +40,14 @@ const useAdminRoute = () => {
             element:
                 <SecuredPage scopes={[SCOPES.ADMIN]}>
                     <AdminPage/>
+                </SecuredPage>
+        },
+        {
+            name: 'admin-users',
+            path: '/admin/users',
+            element:
+                <SecuredPage scopes={[SCOPES.ADMIN]}>
+                    <AdminUsersPage />
                 </SecuredPage>
         }
     ];
