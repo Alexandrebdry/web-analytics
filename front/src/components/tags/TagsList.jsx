@@ -2,7 +2,7 @@ import TagsListElement from "./TagsListElement";
 
 const TagsList = ({tags, selectTag}) => {
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto mt-5">
             <table className="table">
                 <thead>
                 <tr>
