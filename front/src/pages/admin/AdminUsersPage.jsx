@@ -79,9 +79,7 @@ const AdminUsersPage = () => {
 
             <UsersListFilters filters={filters} setFilters={setFilers} />
 
-            <div className="mt-5">
-                <UsersList users={filteredUsers} selectUser={selectUser} />
-            </div>
+            <UsersList users={filteredUsers} selectUser={selectUser} />
         </>
     );
 };
