@@ -13,6 +13,9 @@ export class Connection {
 
     @Prop()
     success: boolean;
+
+    @Prop()
+    userId: string;
 }
 
 export const ConnectionSchema = SchemaFactory.createForClass(Connection);
