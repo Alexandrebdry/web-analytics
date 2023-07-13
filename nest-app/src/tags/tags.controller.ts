@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Request, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request, Get, Param, Put, Delete } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { TagsDto } from './tags.dto';
@@ -26,13 +26,13 @@ export class TagsController {
     return this.tagsService.create(tagDto);
   }
 
-  @Post('update')
+  @Put('update')
   @UseGuards(AuthGuard)
   update(@Body() tagDto: TagsDto, @Request() req) {
     return this.tagsService.update(tagDto, req.user.companyName);
   }
 
-  @Get('delete/:id')
+  @Delete('delete/:id')
   @UseGuards(AuthGuard)
   delete(@Param('id') id: string) {
     return this.tagsService.delete(parseInt(id));
