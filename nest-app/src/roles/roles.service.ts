@@ -17,6 +17,10 @@ export class RolesService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    if (roles.length === 0) {
+      throw new UnauthorizedException('Roles cannot be empty');
+    }
+
     return await this.usersService.update({
         ...user,
         roles: roles
