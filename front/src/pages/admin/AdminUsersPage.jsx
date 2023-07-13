@@ -61,13 +61,17 @@ const AdminUsersPage = () => {
         setModal(false);
     }
 
+    const refreshUsers = () => {
+        getUsers();
+    }
+
     return (
         <>
             <dialog open={modal} id="modal_edit" className="modal text-white">
                 <div className={"modal-box text-primary"}>
                     <button onClick={() => setModal(false)} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     <span className="font-bold text-lg">Gestion des rôles</span>
-                    <UserRolesForm user={selectedUser} closeModal={closeModal}/>
+                    <UserRolesForm user={selectedUser} closeModal={closeModal} refreshUsers={refreshUsers}/>
                 </div>
 
                 <form method="dialog" className="modal-backdrop blur">
@@ -79,9 +83,11 @@ const AdminUsersPage = () => {
 
             <UsersListFilters filters={filters} setFilters={setFilers} />
 
-            <div className="mt-5">
-                <UsersList users={filteredUsers} selectUser={selectUser} />
-            </div>
+            <UsersList 
+                users={filteredUsers} 
+                selectUser={selectUser} 
+                refreshUsers={refreshUsers}
+            />
         </>
     );
 };

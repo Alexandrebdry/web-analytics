@@ -1,9 +1,16 @@
 import { validateUser } from "../../services/UsersService";
 
-const UsersListElement = ({key, user, selectUser}) => {
+const ROLES = {
+    'ROLE_ADMIN': 'Administrateur',
+    'ROLE_MAINTAINER': 'Modérateur',
+    'ROLE_USER': 'Utilisateur'
+}
+
+const UsersListElement = ({user, selectUser, refreshUsers}) => {
     const onClickValidate = async () => {
         user.isVerified = true;
         await validateUser(user.id);
+        refreshUsers();
     }
 
     const onClickRoles = () => {
@@ -11,7 +18,7 @@ const UsersListElement = ({key, user, selectUser}) => {
     }
 
     return (
-        <tr key={key}>
+        <tr>
             <th className="text-primary">{user.id}</th>
             <td>
                 <div className="flex gap-2"><b>{user.username}</b> {user.isVerified 
@@ -22,9 +29,14 @@ const UsersListElement = ({key, user, selectUser}) => {
                 }</div>
                 <div>{user.email}</div>
                 <div className="flex gap-2">
-                    {user.roles.map((role) => {
-                        return <div className="badge badge-neutral" key={role}>{role}</div>
-                    })}
+                    {user.roles
+                        .filter(role => role !== 'ROLE_USER')
+                        .map((role) => {
+                            return <div className="badge badge-neutral" key={role}>
+                                {ROLES[role] ? ROLES[role] : role}
+                            </div>
+                        })
+                    }
                 </div>
             </td>
             <td>

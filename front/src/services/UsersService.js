@@ -16,7 +16,7 @@ export const findUsers = async () => {
 
 export const validateUser = async (id) => {
     const response = await fetch(API_URL + USERS_PREFIX + '/validate/' + id, {
-        method: 'GET',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)

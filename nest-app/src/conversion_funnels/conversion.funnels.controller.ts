@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Request, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request, Get, Param, Put, Delete } from '@nestjs/common';
 import { ConversionFunnelsService } from './conversion.funnels.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ConversionFunnelsDto } from './conversion.funnels.dto';
@@ -26,13 +26,13 @@ export class ConversionFunnelsController {
     return this.conversionFunnelsService.create(conversionFunnelDto);
   }
 
-  @Post('update')
+  @Put('update')
   @UseGuards(AuthGuard)
   update(@Body() conversionFunnelDto: ConversionFunnelsDto, @Request() req) {
     return this.conversionFunnelsService.update(conversionFunnelDto, req.user.companyName);
   }
 
-  @Get('delete/:id')
+  @Delete('delete/:id')
   @UseGuards(AuthGuard)
   delete(@Param('id') id: string) {
     return this.conversionFunnelsService.delete(parseInt(id));
