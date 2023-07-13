@@ -10,6 +10,9 @@ export class Session {
 
     @Prop()
     mail: string;
+
+    @Prop()
+    userId: string;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);
