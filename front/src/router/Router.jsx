@@ -105,13 +105,11 @@ export default function Router() {
                     {
                         routes.map(route => route)
                     }
-                </Route>
-                <Route path={''} element={<AdminLayout/>}>
                     {
                         adminRoutes.map(route => route)
                     }
                 </Route>
-                <Route path={''} >
+                <Route path={'/'}>
                     {
                         authRoutes.map(route => route)
                     }

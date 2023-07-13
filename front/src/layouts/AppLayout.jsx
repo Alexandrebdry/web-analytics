@@ -1,10 +1,11 @@
 import {Outlet} from "react-router-dom";
+import Menu from "../components/menu/Menu";
 
 export default function AppLayout() {
 
     return (
-        <div>
+        <Menu>
             <Outlet/>
-        </div>
+        </Menu>
     )
 }
