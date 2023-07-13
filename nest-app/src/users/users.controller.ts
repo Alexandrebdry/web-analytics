@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Request, Get, Param } from '@nestjs/common';
+import { Body, Controller, Put, UseGuards, Request, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { RolesGuard } from '../roles/roles.guard';
@@ -9,7 +9,7 @@ import { RolesEnum } from '../roles/roles.enum';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Get('validate/:id')
+  @Put('validate/:id')
   @Roles(RolesEnum.ADMIN)
   @UseGuards(AuthGuard, RolesGuard)
   async validate(@Param('id') id: string) {
@@ -23,7 +23,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Post('update')
+  @Put('update')
   @UseGuards(AuthGuard)
   update(@Body() userDto: Record<string, any>, @Request() req) {
     const user = req.user;
@@ -41,7 +41,7 @@ export class UsersController {
     return this.usersService.update(user);
   }
 
-  @Post('update/password')
+  @Put('update/password')
   @UseGuards(AuthGuard)
   updatePassword(@Body() userDto: Record<string, any>, @Request() req) {
     const user = req.user;

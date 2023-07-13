@@ -1,6 +1,6 @@
 import { validateUser } from "../../services/UsersService";
 
-const UsersListElement = ({key, user, selectUser}) => {
+const UsersListElement = ({user, selectUser}) => {
     const onClickValidate = async () => {
         user.isVerified = true;
         await validateUser(user.id);
@@ -11,7 +11,7 @@ const UsersListElement = ({key, user, selectUser}) => {
     }
 
     return (
-        <tr key={key}>
+        <tr>
             <th className="text-primary">{user.id}</th>
             <td>
                 <div className="flex gap-2"><b>{user.username}</b> {user.isVerified 

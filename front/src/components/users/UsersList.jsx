@@ -19,7 +19,7 @@ const UsersList = ({users, selectUser}) => {
                             return userB.roles.length - userA.roles.length;
                         })
                         .map((user) => {
-                            return <UsersListElement key={user.id} user={user} selectUser={selectUser}/>
+                            return <UsersListElement user={user} selectUser={selectUser}/>
                         })
                     }
                 </tbody>
