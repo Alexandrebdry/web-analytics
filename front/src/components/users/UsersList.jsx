@@ -1,6 +1,6 @@
 import UsersListElement from "./UsersListElement";
 
-const UsersList = ({users, selectUser}) => {
+const UsersList = ({users, selectUser, refreshUsers}) => {
     return (
         <div className="overflow-x-auto mt-5">
             <table className="table">
@@ -16,10 +16,29 @@ const UsersList = ({users, selectUser}) => {
                     {
                         users
                         .sort((userA, userB) => {
-                            return userB.roles.length - userA.roles.length;
+                            if (userA.roles.includes('ROLE_ADMIN')) {
+                                return -1;
+                            }
+                            if (userB.roles.includes('ROLE_ADMIN')) {
+                                return 1;
+                            }
+
+                            if (userA.roles.includes('ROLE_MAINTAINER')) {
+                                return -1;
+                            }
+
+                            if (userB.roles.includes('ROLE_MAINTAINER')) {
+                                return 1;
+                            }
+
+                            return userA.id - userB.id;
                         })
                         .map((user) => {
-                            return <UsersListElement user={user} selectUser={selectUser}/>
+                            return <UsersListElement 
+                                user={user} 
+                                selectUser={selectUser}
+                                refreshUsers={refreshUsers}
+                            />
                         })
                     }
                 </tbody>

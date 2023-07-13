@@ -1,8 +1,9 @@
 import { deleteTag } from "../../services/TagsService";
 
-const TagsListElement = ({tag, selectTag}) => {
-    const onClickDelete = () => {
-        deleteTag(tag.id);
+const TagsListElement = ({tag, selectTag, refreshTags}) => {
+    const onClickDelete = async () => {
+        await deleteTag(tag.id);
+        refreshTags();
     }
 
     return (
