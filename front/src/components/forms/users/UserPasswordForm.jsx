@@ -8,6 +8,11 @@ const UserPasswordForm = ({user, logout}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if (password !== verifyPassword) {
+            alert('Les mots de passe ne correspondent pas');
+            return;
+        }
+
         await updateUserPassword({
             password: password
         });
