@@ -64,7 +64,7 @@ const UserRolesForm = ({ user, closeModal, refreshUsers }) => {
                 </div>
             </div>
 
-            <button className="btn btn-primary mt-10">Enregistrer</button>
+            <button type="submit" className="btn btn-primary mt-10">Enregistrer</button>
         </form>
     );
 };
