@@ -10,12 +10,6 @@ const Menu = ({ children }) => {
         return user && user.roles.includes('ROLE_ADMIN');
     }, [user]);
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
-        navigate('/login');
-    }
-
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -63,8 +57,8 @@ const Menu = ({ children }) => {
                             <a>Utilisateurs</a>
                         </li>
                     }
-                    <li onClick={logout} className="mt-auto">
-                        <a className="bg-warning">Déconnexion</a>
+                    <li onClick={() => navigate('/profile')} className="mt-auto">
+                        <a>Profil</a>
                     </li>
                 </ul>
             </div>

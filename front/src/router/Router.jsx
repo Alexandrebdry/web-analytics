@@ -13,6 +13,7 @@ import AdminUsersPage from "../pages/admin/AdminUsersPage.jsx";
 import SecuredPage from "./SecuredPage.jsx";
 import {SCOPES} from "./permissions.js";
 import TagsPage from "../pages/TagsPage.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
 
 
 
@@ -25,6 +26,12 @@ const useRoutes = () => {
                 <SecuredPage scopes={[SCOPES.USER]}>
                     <HomePage/>
                 </SecuredPage>
+        },
+        {
+            name: 'profile',
+            path: '/profile',
+            element:
+                <ProfilePage/>
         },
         {
             name: 'tags',
