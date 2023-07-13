@@ -1,6 +1,6 @@
 import TagsListElement from "./TagsListElement";
 
-const TagsList = ({tags, selectTag}) => {
+const TagsList = ({tags, selectTag, refreshTags}) => {
     return (
         <div className="overflow-x-auto mt-5">
             <table className="table">
@@ -16,7 +16,12 @@ const TagsList = ({tags, selectTag}) => {
                         tags
                         .sort((tagA, tagB) => tagA.id - tagB.id)
                         .map((tag) => {
-                            return <TagsListElement key={tag.id} tag={tag} selectTag={selectTag}/>
+                            return <TagsListElement 
+                                key={tag.id} 
+                                tag={tag} 
+                                selectTag={selectTag} 
+                                refreshTags={refreshTags}
+                            />
                         })
                     }
                 </tbody>

@@ -6,7 +6,7 @@ const ROLES = {
     'ROLE_MAINTAINER': 'Modérateur'
 }
 
-const UserRolesForm = ({ user, closeModal }) => {
+const UserRolesForm = ({ user, closeModal, refreshUsers }) => {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
@@ -25,11 +25,16 @@ const UserRolesForm = ({ user, closeModal }) => {
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        updateRoles(user.id, roles);
-        user.roles = roles;
+        await updateRoles({
+            userId: user.id, 
+            roles: roles
+        });
+
+        closeModal();
+        refreshUsers();
     }
 
     return (

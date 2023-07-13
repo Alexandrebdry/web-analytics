@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { findTags } from "../services/TagsService";
 import TagsList from "../components/tags/TagsList";
 import TagsForm from "../components/forms/tags/TagsForm";
+import CreateTagForm from "../components/forms/tags/CreateTagForm";
 
 const TagsPage = () => {
     // LIST
@@ -27,8 +28,17 @@ const TagsPage = () => {
     }
 
     const closeModal = () => {
-        setSelectedUser(null);
+        setSelectedTag(null);
         setModal(false);
+    }
+
+    const openCreation = () => {
+        setSelectedTag(null);
+        setModal(true);
+    }
+
+    const refreshTags = () => {
+        getTags();
     }
 
     return (
@@ -37,7 +47,12 @@ const TagsPage = () => {
                 <div className={"modal-box text-primary"}>
                     <button onClick={() => setModal(false)} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     <span className="font-bold text-lg">Gestion du tag</span>
-                    <TagsForm tag={selectedTag} closeModal={closeModal}/>
+                    
+                    {
+                        selectedTag
+                        ? <TagsForm tag={selectedTag} closeModal={closeModal} refreshTags={refreshTags}/>
+                        : <CreateTagForm closeModal={closeModal} refreshTags={refreshTags}/>
+                    }
                 </div>
 
                 <form method="dialog" className="modal-backdrop blur">
@@ -45,9 +60,12 @@ const TagsPage = () => {
                 </form>
             </dialog>
 
-            <h1 className="text-2xl">Tags</h1>
+            <div className="flex justify-between">
+                <h1 className="text-2xl">Tags</h1>
+                <button className="btn btn-primary" onClick={openCreation}>Créer un tag</button>
+            </div>
 
-            <TagsList tags={tags} selectTag={selectTag}/>
+            <TagsList tags={tags} selectTag={selectTag} refreshTags={refreshTags}/>
         </>
     );
 }
