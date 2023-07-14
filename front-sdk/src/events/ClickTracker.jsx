@@ -11,6 +11,7 @@ export function ClickTracker() {
         clickEvents.current.forEach((event) => {
             if (navigator.sendBeacon) {
                 navigator.sendBeacon(URL + "/click", JSON.stringify(event));
+                console.log("Click event sent");
             }
         });
         clickEvents.current = [];
