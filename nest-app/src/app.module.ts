@@ -11,6 +11,7 @@ import { SessionModule } from './session/session.module';
 import { ConnectionModule } from './connection/connection.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { CredentialsModule } from './credentials/credentials.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { ConfigModule } from '@nestjs/config';
     TagsModule,
     ConversionFunnelsModule,
     SessionModule,
-    ConnectionModule
+    ConnectionModule,
+    CredentialsModule
   ],
   controllers: [AppController],
   providers: [AppService],

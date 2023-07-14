@@ -19,6 +19,16 @@ model User {
 
   isVerified Boolean @default(false)
   roles String[]
+
+  credentials Credentials[]
+}
+
+model Credentials {
+  id    Int     @default(autoincrement()) @id
+  app_id String
+  app_secret String
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Tag {
