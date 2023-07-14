@@ -34,7 +34,7 @@ const TagsForm = ({tag, closeModal, refreshTags}) => {
 
             <div className="flex gap-2 mt-10">
                 <button className="btn btn-warning" onClick={closeModal}>Annuler</button>
-                <button className="btn btn-primary">Mettre à jour</button>
+                <button type="submit" className="btn btn-primary">Mettre à jour</button>
             </div>
         </form>
     );
