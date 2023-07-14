@@ -52,6 +52,9 @@ const Menu = ({ children }) => {
                     <li onClick={() => navigate('/tags')}>
                         <a>Tags</a>
                     </li>
+                    <li onClick={() => navigate('/credentials')}>
+                        <a>Identifiants</a>
+                    </li>
                     {
                         isAdmin() && <li onClick={() => navigate('/admin/users')}>
                             <a>Utilisateurs</a>

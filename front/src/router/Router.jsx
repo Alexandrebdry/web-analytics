@@ -14,6 +14,7 @@ import SecuredPage from "./SecuredPage.jsx";
 import {SCOPES} from "./permissions.js";
 import TagsPage from "../pages/TagsPage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
+import CredentialsPage from "../pages/CredentialsPage.jsx";
 
 
 
@@ -38,6 +39,12 @@ const useRoutes = () => {
             path: '/tags',
             element:
                 <TagsPage />
+        },
+        {
+            name: 'credentials',
+            path: '/credentials',
+            element:
+                <CredentialsPage />
         }
     ];
 
