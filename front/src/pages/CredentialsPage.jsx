@@ -27,14 +27,14 @@ const CredentialsPage = () => {
     }
 
     return (
-        <div>
+        <>
             <div className="flex justify-between">
                 <h1 className="text-2xl">Identifiants</h1>
                 <button className="btn btn-primary" onClick={onClickCreate}>Créer un identifiant</button>
             </div>
 
             <CredentialsList credentials={credentials} refreshCredentials={refreshCredentials} />
-        </div>
+        </>
     );
 };
 

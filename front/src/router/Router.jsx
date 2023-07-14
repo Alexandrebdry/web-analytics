@@ -15,6 +15,7 @@ import {SCOPES} from "./permissions.js";
 import TagsPage from "../pages/TagsPage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import CredentialsPage from "../pages/CredentialsPage.jsx";
+import ConversionFunnelsPage from "../pages/ConversionFunnelsPage.jsx";
 
 
 
@@ -39,6 +40,12 @@ const useRoutes = () => {
             path: '/tags',
             element:
                 <TagsPage />
+        },
+        {
+            name: 'conversion_funnels',
+            path: '/conversion-funnels',
+            element:
+                <ConversionFunnelsPage />
         },
         {
             name: 'credentials',
