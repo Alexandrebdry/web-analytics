@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import {URL} from "../AnalyticsSDK" ;
+import {sendData} from "../sendData";
 
 export function ClickTracker({appID, appSecret}) {
     const clickEventsRef = useRef([]);
@@ -13,14 +13,17 @@ export function ClickTracker({appID, appSecret}) {
             return;
         }
 
-        if (navigator.sendBeacon && URL) {
-            const eventsToSend = clickEventsRef.current.slice();
-            clickEventsRef.current = [];
+        const eventsToSend = clickEventsRef.current.slice();
+        clickEventsRef.current = [];
 
-            eventsToSend.forEach((event) => {
-                navigator.sendBeacon(URL + "/click", JSON.stringify({...event, appID: appID, appSecret: appSecret}));
-            });
-        }
+        sendData({
+            data: eventsToSend?.length,
+            appID: appID,
+            appSecret: appSecret,
+            type: "click",
+        }) ;
+
+
     }
 
     function handleClickEvent(event, location = "example") {

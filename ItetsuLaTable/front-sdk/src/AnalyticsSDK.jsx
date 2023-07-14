@@ -4,8 +4,9 @@ import {isAppRegistered} from "./auth/register";
 import SessionTracker from "./events/SessionTracker";
 import ConnexionTracker from "./events/ConnexionTracker";
 import PageTracker from "./events/PageTracker";
+import MouseTracker from "./events/MouseTracker";
 
-export const URL = "http://localhost:3000/api/v1/analytics" ;
+
 export default function AnalyticsSDK ({ appID, appSECRET }) {
 
     const [isRegistered, setIsRegistered] = useState(false) ;
@@ -14,7 +15,6 @@ export default function AnalyticsSDK ({ appID, appSECRET }) {
     useEffect(() => {
         isAppRegistered(appID, appSECRET, (data) => {
             setIsRegistered(data) ;
-            console.log(data) ;
         }) ;
 
     },[]) ;
@@ -36,6 +36,10 @@ export default function AnalyticsSDK ({ appID, appSECRET }) {
                     appSecret={appSECRET}
                 />
                 <ConnexionTracker
+                    appID={appID}
+                    appSecret={appSECRET}
+                />
+                <MouseTracker
                     appID={appID}
                     appSecret={appSECRET}
                 />

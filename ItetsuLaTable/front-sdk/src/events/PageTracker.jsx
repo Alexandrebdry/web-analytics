@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { generateUserId } from '../auth/UserUtils';
-import { URL } from '../AnalyticsSDK';
 import { useLocation } from 'react-router-dom';
+import {sendData} from "../sendData";
 
 function PageTracker({appID, appSecret}) {
     const userIdRef = useRef(null);
@@ -25,20 +25,20 @@ function PageTracker({appID, appSecret}) {
                 return;
             }
 
-            const eventData = {
-                userId: userIdRef.current,
-                pages: visitedPagesRef.current,
-                timestamp: new Date().toISOString(),
-            };
-
-            if (navigator.sendBeacon && URL) {
-                const success = navigator.sendBeacon(URL + '/pages', JSON.stringify({...eventData, appID:appID,appSecret:appSecret}));
 
 
-                if (success) {
-                    visitedPagesRef.current = [];
+                for (const page of visitedPagesRef.current) {
+                    sendData({
+                        data: page,
+                        appSecret:appSecret,
+                        appID:appID,
+                        type:"pageVisited",
+                        callback: () => {
+                            visitedPagesRef.current = [];
+                        }
+                    }) ;
                 }
-            }
+
         }
 
         function scheduleSendPageEvent() {

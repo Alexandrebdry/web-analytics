@@ -1,7 +1,6 @@
 {
   "name": "front-sdk",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +9,8 @@
   "license": "ISC",
   "dependencies": {
     "react": "^18.2.0",
+    "ua-parser-js": "^1.0.35",
     "uuid": "^9.0.0"
-  }
+  },
+  "description": ""
 }

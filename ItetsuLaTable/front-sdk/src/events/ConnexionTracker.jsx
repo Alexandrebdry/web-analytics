@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { generateUserId } from '../auth/UserUtils';
-import { URL } from '../AnalyticsSDK';
+import {sendData} from "../sendData";
 
 function ConnectionTracker({appID, appSecret}) {
     const userIdRef = useRef(null);
@@ -53,18 +53,19 @@ function ConnectionTracker({appID, appSecret}) {
         }
 
         if (navigator.sendBeacon) {
-            const eventData = {
-                userId: userIdRef.current,
-                locality: localityRef.current, // Ajout de la localité dans l'événement
-                timestamp: new Date().toISOString(),
-            };
 
-            const success = navigator.sendBeacon(URL + '/connections', JSON.stringify({...eventData, appID:appID, appSecret:appSecret}));
-            console.log('Connection event sent');
-
-            if (success) {
-                uniqueConnectionsRef.current.add(userIdRef.current);
-            }
+            sendData({
+                data: {
+                    userId: userIdRef.current,
+                    locality: localityRef.current, // Ajout de la localité dans l'événement
+                },
+                appID: appID,
+                appSecret: appSecret,
+                type: "connexion",
+                callback: () => {
+                    uniqueConnectionsRef.current.add(userIdRef.current);
+                }
+            }) ;
         }
     }
 
