@@ -32,6 +32,15 @@ export class CredentialsService {
         });
     }
 
+    async findByCredentials(appID: string, appSecret: string) {
+        return this.prisma.credentials.findFirst({
+            where: {
+                appID: appID,
+                appSecret: appSecret,
+            },
+        });
+    }
+
     async create(userId: number) {
         const newCredentials = {
             appID: uuidv4(),
