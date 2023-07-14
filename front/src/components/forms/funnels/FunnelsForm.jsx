@@ -1,18 +1,25 @@
-import { useState } from "react";
-import { createFunnel } from "../../../services/ConversionFunnelsService";
+import { useEffect, useState } from "react";
+import { updateFunnel } from "../../../services/ConversionFunnelsService";
 
-const CreateFunnelForm = ({ closeModal, refreshFunnels }) => {
+const FunnelsForm = ({funnel, closeModal, refreshFunnels}) => {
     const [comment, setComment] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        await createFunnel({
+        await updateFunnel({
+            id: funnel.id,
             comment: comment
         });
         closeModal();
         refreshFunnels();
     }
+
+    useEffect(() => {
+        if (funnel) {
+            setComment(funnel.comment);
+        }
+    }, [funnel]);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -24,13 +31,13 @@ const CreateFunnelForm = ({ closeModal, refreshFunnels }) => {
                     <input type="text" placeholder="Commentaire" value={comment} onChange={(event) => setComment(event.target.value)} className="input input-bordered"/>
                 </div>
             </div>
-            
+
             <div className="flex gap-2 mt-10">
                 <button className="btn btn-warning" onClick={closeModal}>Annuler</button>
-                <button type="submit" className="btn btn-primary">Créer</button>
+                <button type="submit" className="btn btn-primary">Mettre à jour</button>
             </div>
         </form>
-    )
-};
+    );
+}
 
-export default CreateFunnelForm;
+export default FunnelsForm;

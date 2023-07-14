@@ -70,7 +70,7 @@ export class ConversionFunnelsService {
     const conversionFunnel = await this.prisma.conversionFunnel.findUnique({
         where: {
             id: id,
-            companyName: companyName
+            companyName: companyName,
         }
     }) as ConversionFunnel;
 
@@ -79,7 +79,6 @@ export class ConversionFunnelsService {
     }
 
     const tags = await this.getTags(conversionFunnel);
-    console.log(tags);
 
     return conversionFunnel;
   }
