@@ -1,34 +1,32 @@
-import {useEffect, useState} from "react";
-import {ClickTracker} from "./events/ClickTracker";
-import {isAppRegistered} from "./auth/register";
+import { useEffect, useState } from "react";
+import { ClickTracker } from "./events/ClickTracker";
+import { isAppRegistered } from "./auth/register";
 import SessionTracker from "./events/SessionTracker";
 import ConnexionTracker from "./events/ConnexionTracker";
 import PageTracker from "./events/PageTracker";
+import GetConnections from "./gets/GetConnections";
+import CatchConnection from "./events/CatchConnections";
 
-export const URL = "http://localhost:3000/api/v1/analytics" ;
-export default function AnalyticsSDK ({ appID, appSECRET }) {
-
-    const [isRegistered, setIsRegistered] = useState(false) ;
+export const URL = "http://localhost:3000/api/v1/analytics";
+export default function AnalyticsSDK({ appID, appSECRET }) {
+    const [isRegistered, setIsRegistered] = useState(false);
 
     useEffect(() => {
-
         isAppRegistered(appID, appSECRET, (data) => {
-            setIsRegistered(data) ;
-        }) ;
-
-    },[]) ;
+            setIsRegistered(data);
+        });
+    }, []);
 
     if (isRegistered) {
-
         return (
             <>
-                <ClickTracker/>
-                <PageTracker/>
-                <SessionTracker/>
-                <ConnexionTracker/>
+                <ClickTracker />
+                <PageTracker />
+                <SessionTracker />
+                <ConnexionTracker />
+                <GetConnections />
+                <CatchConnection />
             </>
-
-        )
+        );
     }
-
 }
