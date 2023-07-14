@@ -31,6 +31,7 @@ function PageTracker() {
                 };
 
                 const success = navigator.sendBeacon(URL + '/pages', JSON.stringify(eventData));
+                console.log('Page event tracked');
 
                 if (success) {
                     visitedPagesRef.current = [];
@@ -56,6 +57,7 @@ function PageTracker() {
     function trackPage(page) {
         if (page) {
             visitedPagesRef.current = Array.from(new Set([...visitedPagesRef.current, page]));
+
         }
     }
 

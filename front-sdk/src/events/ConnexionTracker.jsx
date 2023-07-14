@@ -60,6 +60,7 @@ function ConnectionTracker() {
             };
 
             const success = navigator.sendBeacon(URL + '/connections', JSON.stringify(eventData));
+            console.log('Connection event sent');
 
             if (success) {
                 uniqueConnectionsRef.current.add(userIdRef.current);
