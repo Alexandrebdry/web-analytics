@@ -5,8 +5,8 @@ import {v4 as uuidv4} from 'uuid';
 
 export type Credentials = {
     id?: number;
-    app_id: string;
-    app_secret: string;
+    appID: string;
+    appSecret: string;
     userId: number;
     user?: User;
 };
@@ -34,14 +34,14 @@ export class CredentialsService {
 
     async create(userId: number) {
         const newCredentials = {
-            app_id: uuidv4(),
-            app_secret: uuidv4(),
+            appID: uuidv4(),
+            appSecret: uuidv4(),
         };
 
         return await this.prisma.credentials.create({
             data: {
-                app_id: newCredentials.app_id,
-                app_secret: newCredentials.app_secret,
+                appID: newCredentials.appID,
+                appSecret: newCredentials.appSecret,
                 userId: userId,
             },
         });
