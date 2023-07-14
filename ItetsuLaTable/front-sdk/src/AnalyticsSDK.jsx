@@ -10,10 +10,11 @@ export default function AnalyticsSDK ({ appID, appSECRET }) {
 
     const [isRegistered, setIsRegistered] = useState(false) ;
 
-    useEffect(() => {
 
+    useEffect(() => {
         isAppRegistered(appID, appSECRET, (data) => {
             setIsRegistered(data) ;
+            console.log(data) ;
         }) ;
 
     },[]) ;
@@ -22,10 +23,22 @@ export default function AnalyticsSDK ({ appID, appSECRET }) {
 
         return (
             <>
-                <ClickTracker/>
-                <PageTracker/>
-                <SessionTracker/>
-                <ConnexionTracker/>
+                <ClickTracker
+                    appID={appID}
+                    appSecret={appSECRET}
+                />
+                <PageTracker
+                    appID={appID}
+                    appSecret={appSECRET}
+                />
+                <SessionTracker
+                    appID={appID}
+                    appSecret={appSECRET}
+                />
+                <ConnexionTracker
+                    appID={appID}
+                    appSecret={appSECRET}
+                />
             </>
 
         )

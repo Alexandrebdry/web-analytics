@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import  { useEffect, useRef } from 'react';
+import {URL} from "../AnalyticsSDK" ;
 
-function SessionTracker() {
+function SessionTracker({appID, appSecret}) {
     const sessionStartTimeRef = useRef(null);
     const lastActivityTimeRef = useRef(null);
     const sendIntervalRef = useRef(null);
@@ -43,13 +44,7 @@ function SessionTracker() {
             };
 
             if (navigator.sendBeacon) {
-                const success = navigator.sendBeacon('http://exemple.com/api/session', JSON.stringify(eventData));
-
-                if (success) {
-                    console.log('Données de session envoyées avec succès via l\'API Beacon');
-                } else {
-                    console.error('Erreur lors de l\'envoi des données de session via l\'API Beacon');
-                }
+                navigator.sendBeacon(URL, JSON.stringify({...eventData,appID:appID,appSecret:appSecret}));
             } else {
                 console.error('L\'API Beacon n\'est pas prise en charge dans ce navigateur. Utilisez une autre méthode d\'envoi.');
             }

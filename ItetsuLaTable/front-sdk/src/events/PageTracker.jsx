@@ -1,11 +1,13 @@
-import  { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { generateUserId } from '../auth/UserUtils';
-import { URL } from '../index.jsx';
+import { URL } from '../AnalyticsSDK';
+import { useLocation } from 'react-router-dom';
 
-function PageTracker() {
+function PageTracker({appID, appSecret}) {
     const userIdRef = useRef(null);
     const visitedPagesRef = useRef([]);
     const sendTimeoutRef = useRef(null);
+    const location = useLocation();
 
     const userId = generateUserId();
 
@@ -23,15 +25,15 @@ function PageTracker() {
                 return;
             }
 
-            if (navigator.sendBeacon && URL) {
-                const eventData = {
-                    userId: userIdRef.current,
-                    pages: visitedPagesRef.current,
-                    timestamp: new Date().toISOString(),
-                };
+            const eventData = {
+                userId: userIdRef.current,
+                pages: visitedPagesRef.current,
+                timestamp: new Date().toISOString(),
+            };
 
-                const success = navigator.sendBeacon(URL + '/pages', JSON.stringify(eventData));
-                console.log('Page event tracked');
+            if (navigator.sendBeacon && URL) {
+                const success = navigator.sendBeacon(URL + '/pages', JSON.stringify({...eventData, appID:appID,appSecret:appSecret}));
+
 
                 if (success) {
                     visitedPagesRef.current = [];
@@ -54,29 +56,9 @@ function PageTracker() {
         };
     }, []);
 
-    function trackPage(page) {
-        if (page) {
-            visitedPagesRef.current = Array.from(new Set([...visitedPagesRef.current, page]));
-
-        }
-    }
-
     useEffect(() => {
-        const handlePageChange = () => {
-            const currentPage = window.location.pathname;
-            trackPage(currentPage);
-        };
-
-        if (typeof window !== 'undefined') {
-            window.addEventListener('popstate', handlePageChange);
-        }
-
-        return () => {
-            if (typeof window !== 'undefined') {
-                window.removeEventListener('popstate', handlePageChange);
-            }
-        };
-    }, []);
+        visitedPagesRef.current = Array.from(new Set([...visitedPagesRef.current, location.pathname]));
+    }, [location.pathname]);
 
     return null;
 }
