@@ -25,8 +25,6 @@ import { CredentialsService } from './credentials.service';
         if ((!appID || appID === undefined) || (!appSecret || appSecret === undefined)) {
           appID = request.body.appID;
           appSecret = request.body.appSecret;
-
-          console.log(appID, appSecret);
         }
         
         if (!appID || !appSecret) {

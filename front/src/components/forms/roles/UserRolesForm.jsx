@@ -29,8 +29,6 @@ const UserRolesForm = ({ user, closeModal, refreshUsers }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log(roles);
-
         await updateRoles({
             userId: user.id, 
             roles: roles

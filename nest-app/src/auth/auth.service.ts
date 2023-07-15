@@ -16,8 +16,7 @@ export class AuthService {
 
   async signIn(email, pass) {
     const user = await this.usersService.findByEmail(email);
-    console.log(user)
-
+    
     if (!user) {
         throw new UnauthorizedException('Invalid credentials');
     }
