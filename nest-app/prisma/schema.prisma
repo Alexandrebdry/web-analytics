@@ -17,20 +17,20 @@ model User {
   companyKBIS String
   companyURL  String
 
-  isVerified Boolean  @default(false)
-  roles      String[]
-  reports    Report[]
-  tags       Tag[]
-  credentials Credentials[]
+  isVerified        Boolean            @default(false)
+  roles             String[]
+  reports           Report[]
+  tags              Tag[]
+  credentials       Credentials[]
   conversionFunnels ConversionFunnel[]
 }
 
 model Credentials {
-  id    Int     @default(autoincrement()) @id
-  appID String
+  id        Int    @default(autoincrement()) @id
+  appID     String
   appSecret String
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
 }
 
 model Tag {

@@ -1,4 +1,4 @@
-export class ConversionFunnelsDto {
+export class CreateConversionFunnelsDto {
     id?: number;
     comment: string;
     tags?: string[];

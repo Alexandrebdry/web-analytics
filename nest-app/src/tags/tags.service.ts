@@ -69,21 +69,31 @@ export class TagsService {
     }
 
     async findAllByUser(user: User): Promise<Tag[]> {
-        return this.prisma.tag.findMany({
-            where: {
-                deleted: false,
-                user: {
-                    id: user.id
+        if (user.roles.includes('ROLE_ADMIN')) {
+            return this.prisma.tag.findMany(
+                {
+                    where: {
+                        deleted: false
+                    }
                 }
-            }
-        });
+            );
+        }
+        else {
+            return this.prisma.tag.findMany({
+                where: {
+                    deleted: false,
+                    user: {
+                        id: user.id
+                    }
+                }
+            });
+        }
     }
 
-  async findByComment(comment: string, companyName: string): Promise<Tag> {
+  async findByComment(comment: string): Promise<Tag> {
     return this.prisma.tag.findFirst({
         where: {
             comment: comment,
-            companyName: companyName
         }
     });
   }
