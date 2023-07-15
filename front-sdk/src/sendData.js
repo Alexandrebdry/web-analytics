@@ -1,4 +1,5 @@
 import {generateUserId} from "./auth/UserUtils";
+import * as parser from "ua-parser-js" ;
 const URL = "http://localhost:3000" ;
 const eventUrl = `${URL}/events` ;
 const tagUrl = `${URL}/tags/comment` ;
@@ -11,6 +12,7 @@ export function sendData({
     callback
 }) {
 
+    const parser = new UAParser() ;
 
     const eventData = {
         date: new Date() ,
@@ -25,6 +27,16 @@ export function sendData({
             screenHeight: window.innerHeight,
             language: navigator.language,
             vendor: navigator.vendor,
+            os: parser.getOS().name,
+            osVersion: parser.getOS().version,
+            browser: parser.getBrowser().name,
+            browserVersion: parser.getBrowser().version,
+            deviceType: parser.getDevice().type,
+            deviceVendor: parser.getDevice().vendor,
+            deviceModel: parser.getDevice().model,
+            cpuArchitecture: parser.getCPU().architecture,
+            engineName: parser.getEngine().name,
+            engineVersion: parser.getEngine().version,
         }
     }
 
