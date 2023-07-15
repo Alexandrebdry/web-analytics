@@ -5,7 +5,21 @@ import SessionTracker from "./events/SessionTracker";
 import ConnexionTracker from "./events/ConnexionTracker";
 import PageTracker from "./events/PageTracker";
 import MouseTracker from "./events/MouseTracker";
+import TagTracker from "./TagTracker";
 
+export function TagTrackerSDK ({appID, appSECRET, tagName }) {
+
+    return (
+        <>
+            <TagTracker
+                appID={appID}
+                appSecret={appSECRET}
+                tagName={tagName}
+            />
+        </>
+    )
+
+}
 
 export default function AnalyticsSDK ({ appID, appSECRET }) {
 
