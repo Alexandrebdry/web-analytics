@@ -11,6 +11,7 @@ import OpenSourcesComponent from "../component/OpenSourcesComponent";
 import TimelineComponent from "../component/timeline/TimelineComponent";
 import TimelineItemComponent from "../component/timeline/TimelineItemComponent";
 import useScrollNavigate from "react-scroll-navigate";
+import TagTracker from "../../front-sdk/src/TagTracker";
 
 export default function AProposView () {
 
@@ -29,6 +30,13 @@ export default function AProposView () {
 
     return (
         <Box>
+
+            <TagTracker
+                appID={"zqdqz"}
+                appSecret={"sefd"}
+                tagName={"a-propos"}
+            />
+
             <HeroBannerComponent
                 color={'--text-white'}
                 bgColor={'--color-secondary'}
