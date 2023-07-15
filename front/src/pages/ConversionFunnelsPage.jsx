@@ -5,7 +5,6 @@ import FunnelsForm from "../components/forms/funnels/FunnelsForm";
 import CreateFunnelForm from "../components/forms/funnels/CreateFunnelForm";
 
 const ConversionFunnelsPage = () => {
-    // LIST
     const [conversionFunnels, setConversionFunnels] = useState([]);
 
     const getFunnels = async () => {

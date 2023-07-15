@@ -1,11 +1,9 @@
-export class TagsDto {
-    id?: number;
+export class CreateTagDto {
+    id: number;
     comment: string;
-    companyName?: string;
 
     constructor() {
         this.id = undefined;
         this.comment = '';
-        this.companyName = '';
     }
 }

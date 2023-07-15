@@ -1,13 +1,11 @@
-export class ConversionFunnelsDto {
+export class CreateConversionFunnelsDto {
     id?: number;
     comment: string;
-    companyName?: string;
     tags?: string[];
 
     constructor() {
         this.id = undefined;
         this.comment = '';
-        this.companyName = '';
         this.tags = [];
     }
 }

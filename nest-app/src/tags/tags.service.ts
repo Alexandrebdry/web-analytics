@@ -1,78 +1,99 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
-import { TagsDto } from './tags.dto';
+import {Injectable, NotFoundException} from '@nestjs/common';
+import {PrismaService} from 'nestjs-prisma';
+import {CreateTagDto} from './dto/create-tag.dto';
+import {UpdateTagDto} from "./dto/update-tag.dto";
+import {User} from "@prisma/client";
 
 export type Tag = {
     id?: number;
     comment: string;
-    companyName: string;
     deleted?: boolean;
 };
 
 @Injectable()
 export class TagsService {
-  constructor(
-    private prisma: PrismaService
-  ) {}
+    constructor(
+        private prisma: PrismaService
+    ) {
+    }
 
-  async create(tagDto: TagsDto): Promise<Tag> {
-    tagDto.id = undefined;
+    async create(userId: number, tagDto: CreateTagDto): Promise<Tag> {
+        return this.prisma.tag.create({
+            data: {
+                comment: tagDto.comment,
+                user: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
+        });
+    }
 
-    return this.prisma.tag.create({
-        data: {
-            comment: tagDto.comment,
-            companyName: tagDto.companyName
+    async update(id: number, updateTagDto: UpdateTagDto): Promise<Tag> {
+        const tag = await this.prisma.tag.findUnique({
+            where: {id},
+        });
+        if (!tag) {
+            throw new NotFoundException(`Tag with id ${id} not found`);
         }
-    });
-  }
+        return this.prisma.tag.update({
+            where: {id},
+            data: updateTagDto,
+        });
+    }
 
-  async update(tagDto: TagsDto, companyName: string): Promise<Tag> {
-    return this.prisma.tag.update({
-        where: {
-            id: tagDto.id,
-            companyName: companyName
-        },
-        data: {
-            comment: tagDto.comment,
+    async delete(id: number): Promise<Tag> {
+        const tag = await this.prisma.tag.findUnique({
+            where: {id},
+        });
+        if (!tag) {
+            throw new NotFoundException(`Tag with id ${id} not found`);
         }
-    });
-  }
+        return this.prisma.tag.update({
+            where: {id},
+            data: {
+                deleted: true
+            }
+        });
+    }
 
-  async delete(id: number): Promise<Tag> {
-    return this.prisma.tag.update({
-        where: {
-            id: id
-        },
-        data: {
-            deleted: true
+
+    async find(id: number): Promise<Tag> {
+        return this.prisma.tag.findUnique({
+            where: {
+                id: id,
+                deleted: false
+            },
+        });
+    }
+
+    async findAllByUser(user: User): Promise<Tag[]> {
+        if (user.roles.includes('ROLE_ADMIN')) {
+            return this.prisma.tag.findMany(
+                {
+                    where: {
+                        deleted: false
+                    }
+                }
+            );
         }
-    });
-  }
-
-
-  async find(id: number, companyName: string): Promise<Tag> {
-    return this.prisma.tag.findUnique({
-        where: {
-            id: id,
-            companyName: companyName
+        else {
+            return this.prisma.tag.findMany({
+                where: {
+                    deleted: false,
+                    user: {
+                        id: user.id
+                    }
+                }
+            });
         }
-    });
-  }
+    }
 
-  async findCompany(companyName: string): Promise<Tag[]> {
-      return this.prisma.tag.findMany({
-        where: {
-            companyName: companyName,
-            deleted: false
-        }
-    });
-  }
-
-  async findByComment(comment: string, companyName: string): Promise<Tag> {
+  async findByComment(comment: string): Promise<Tag> {
     return this.prisma.tag.findFirst({
         where: {
             comment: comment,
-            companyName: companyName
         }
     });
   }

@@ -2,9 +2,11 @@ import { useCallback } from "react";
 import { useAuthContext } from "../providers/AuthProvider";
 import UserForm from "../components/forms/users/UserForm";
 import UserPasswordForm from "../components/forms/users/UserPasswordForm";
+import {useNavigate} from "react-router-dom";
 
 const ProfilePage = () => {
     const { user, setUser } = useAuthContext();
+    const navigate = useNavigate();
 
     const logout = useCallback(() => {
         localStorage.removeItem('token');
