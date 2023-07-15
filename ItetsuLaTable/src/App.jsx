@@ -3,6 +3,7 @@ import {Fragment, useEffect} from "react";
 import Router from "./router/Router.jsx" ;
 import FooterComponent from "@/component/FooterComponent";
 import ReactGA from 'react-ga';
+import AnalyticsSDK from "../front-sdk/src/AnalyticsSDK"
 function App() {
 
     const TRACKING_ID = "G-JCBT80D428";
@@ -14,6 +15,10 @@ function App() {
 
     return (
         <Fragment>
+            <AnalyticsSDK
+                appID={"zqdqz"}
+                appSECRET={"sefd"}
+            />
             <HeaderComponent/>
             <Router/>
             <FooterComponent/>

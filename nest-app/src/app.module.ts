@@ -13,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { MetricsController } from './metrics/metrics.controller';
 import { MetricsModule } from './metrics/metrics.module';
+import { CredentialsModule } from './credentials/credentials.module';
 
 @Module({
   imports: [
@@ -37,16 +38,17 @@ import { MetricsModule } from './metrics/metrics.module';
       },
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
-    AuthModule, 
+    AuthModule,
     UsersModule,
     RolesModule,
     TagsModule,
     ConversionFunnelsModule,
     SessionModule,
     ConnectionModule,
-    MetricsModule
+    MetricsModule,
+    CredentialsModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

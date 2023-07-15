@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { generateUserId } from '../auth/UserUtils';
-import { URL } from '../config';
+import {sendData} from "../sendData";
 
-function ConnectionTracker() {
+function ConnectionTracker({appID, appSecret}) {
     const userIdRef = useRef(null);
     const uniqueConnectionsRef = useRef(new Set());
     const localityRef = useRef(null);
@@ -34,7 +34,7 @@ function ConnectionTracker() {
             }
             const { latitude, longitude } = position.coords;
 
-            const locality = 'Paris, France';
+            const locality =  `lat:${latitude},lon:${longitude}` ||  'Paris, France';
             localityRef.current = locality;
         }
 
@@ -53,18 +53,19 @@ function ConnectionTracker() {
         }
 
         if (navigator.sendBeacon) {
-            const eventData = {
-                userId: userIdRef.current,
-                locality: localityRef.current, // Ajout de la localité dans l'événement
-                timestamp: new Date().toISOString(),
-            };
 
-            const success = navigator.sendBeacon(URL + '/connections', JSON.stringify(eventData));
-            console.log('Connection event sent');
-
-            if (success) {
-                uniqueConnectionsRef.current.add(userIdRef.current);
-            }
+            sendData({
+                data: {
+                    userId: userIdRef.current,
+                    locality: localityRef.current, // Ajout de la localité dans l'événement
+                },
+                appID: appID,
+                appSecret: appSecret,
+                type: "connexion",
+                callback: () => {
+                    uniqueConnectionsRef.current.add(userIdRef.current);
+                }
+            }) ;
         }
     }
 

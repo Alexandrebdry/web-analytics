@@ -2,6 +2,8 @@ import {PrismaClient} from '@prisma/client';
 import {faker} from '@faker-js/faker';
 import * as dotenv from 'dotenv';
 import * as bcrypt from 'bcrypt';
+import {v4 as uuidv4} from 'uuid';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -10,6 +12,7 @@ async function main() {
     await prisma.conversionFunnelTag.deleteMany();
     await prisma.conversionFunnel.deleteMany();
     await prisma.tag.deleteMany();
+    await prisma.credentials.deleteMany();
     await prisma.user.deleteMany();
 
     console.log('DATABASE CLEANED');
@@ -17,6 +20,10 @@ async function main() {
 
     await seedUsers();
     console.log('USERS SEEDED');
+    console.log('==============');
+
+    await seedCredentials();
+    console.log('CREDENTIALS SEEDED');
     console.log('==============');
 
     await seedTags();
@@ -48,12 +55,14 @@ async function seedUsers() {
     for (const user of users) {
         const password = await bcrypt.hash(user.password, 10);
 
-        await prisma.user.create({
+        const newUser = await prisma.user.create({
             data: {
                 ...user,
                 password: password
             }
         });
+
+        user.id = newUser.id;
     }
 }
 
@@ -110,6 +119,22 @@ const users: User[] = [
         roles: ['ROLE_USER']
     }
 ];
+
+/* ====================
+CREDENTIALS
+==================== */
+
+async function seedCredentials() {
+    for (const user of users) {
+        const newCredentials = await prisma.credentials.create({
+            data: {
+                appID: uuidv4(),
+                appSecret: uuidv4(),
+                userId: user.id
+            }
+        });
+    }
+}
 
 /* ====================
 TAGS
