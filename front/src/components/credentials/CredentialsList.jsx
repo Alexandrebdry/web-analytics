@@ -1,8 +1,6 @@
 import CredentialsListElement from "./CredentialsListElement";
 
 const CredentialsList = ({credentials, refreshCredentials}) => {
-    console.log(credentials);
-
     return (
         <div className="overflow-x-auto mt-5">
             <table className="table">

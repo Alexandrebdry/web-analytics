@@ -12,7 +12,7 @@ const FunnelsListElement = ({funnel, selectFunnel, refreshFunnels}) => {
             <td>{funnel.comment}</td>
             <td>
                 {funnel.tags.map(tag => {
-                    return <span key={tag.id} className="badge badge-primary">{tag.comment}</span>
+                    return <span key={tag.id} className="badge badge-neutral mr-2">{tag.comment}</span>
                 })}
             </td>
             <td className="flex gap-2">
