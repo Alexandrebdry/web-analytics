@@ -12,6 +12,7 @@ import { ConnectionModule } from './connection/connection.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { CredentialsModule } from './credentials/credentials.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { CredentialsModule } from './credentials/credentials.module';
     ConversionFunnelsModule,
     SessionModule,
     ConnectionModule,
-    CredentialsModule
+    CredentialsModule,
+    EventModule
   ],
   controllers: [AppController],
   providers: [AppService],

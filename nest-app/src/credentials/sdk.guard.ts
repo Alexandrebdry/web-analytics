@@ -15,11 +15,16 @@ import { CredentialsService } from './credentials.service';
       const request = context.switchToHttp().getRequest();
 
       try {
-        const appID = request.headers['app-id'];
-        const appSecret = request.headers['app-secret'];
+        let appID = request.headers['app-id'];
+        let appSecret = request.headers['app-secret'];
 
         if (!appID || !appSecret) {
-            return false;
+          appID = request.body.appID;
+          appSecret = request.body.appSecret;
+        }
+        
+        if (!appID || !appSecret) {
+          return false;
         }
 
         const credentials = await this.credentialsService.findByCredentials(appID, appSecret);
