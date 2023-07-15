@@ -1,10 +1,12 @@
-import {useEffect} from "react";
-import {sendData} from "../sendData";
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { sendData } from '../sendData';
 
 function MouseTracker({ appID, appSecret }) {
-    useEffect(() => {
-        let data = [];
+    const location = useLocation();
+    const data = [];
 
+    useEffect(() => {
         function collectData(event) {
             const { pageX, pageY } = event;
             const { scrollX, scrollY } = window;
@@ -15,10 +17,7 @@ function MouseTracker({ appID, appSecret }) {
             data.push({ x, y });
         }
 
-        window.addEventListener('mousemove', collectData);
-        window.addEventListener('scroll', collectData);
-
-        const interval = setInterval(() => {
+        function sendAndResetData() {
             if (data.length > 0) {
                 sendData({
                     data: data,
@@ -26,18 +25,24 @@ function MouseTracker({ appID, appSecret }) {
                     appSecret: appSecret,
                     appID: appID,
                     callback: () => {
-                        data = [];
+                        data.length = 0;
                     },
                 });
             }
-        }, 5000);
+        }
+
+        window.addEventListener('mousemove', collectData);
+        window.addEventListener('scroll', collectData);
+        window.addEventListener('beforeunload', sendAndResetData);
+
+        sendAndResetData();
 
         return () => {
             window.removeEventListener('mousemove', collectData);
             window.removeEventListener('scroll', collectData);
-            clearInterval(interval);
+            window.removeEventListener('beforeunload', sendAndResetData);
         };
-    }, []);
+    }, [appID, appSecret, location]);
 
     return null;
 }
