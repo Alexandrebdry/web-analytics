@@ -2,6 +2,7 @@ import { Body, Controller, Post, UseGuards, Request, Get, Param, Put, Delete } f
 import { TagsService } from './tags.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { TagsDto } from './tags.dto';
+import { SdkGuard } from 'src/credentials/sdk.guard';
 
 @Controller('tags')
 export class TagsController {
@@ -17,6 +18,12 @@ export class TagsController {
   @UseGuards(AuthGuard)
   find(@Param('id') id: number, @Request() req) {
     return this.tagsService.find(id, req.user.companyName);
+  }
+
+  @Get('comment/:comment')
+  @UseGuards(SdkGuard)
+  findByComment(@Param('comment') comment: string, @Request() req) {
+    return this.tagsService.findByComment(comment, req.user.companyName);
   }
 
   @Post('create')

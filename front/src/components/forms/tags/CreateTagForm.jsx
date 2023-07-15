@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { createFunnel } from "../../../services/ConversionFunnelsService";
+import { createTag } from "../../../services/TagsService";
 
-const CreateFunnelForm = ({ closeModal, refreshFunnels }) => {
+const CreateFunnelForm = ({ closeModal, refreshTags }) => {
     const [comment, setComment] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        await createFunnel({
+        await createTag({
             comment: comment
         });
         closeModal();
-        refreshFunnels();
+        refreshTags();
     }
 
     return (
