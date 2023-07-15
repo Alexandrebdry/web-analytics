@@ -34,7 +34,8 @@ const UsersList = ({users, selectUser, refreshUsers}) => {
                             return userA.id - userB.id;
                         })
                         .map((user) => {
-                            return <UsersListElement 
+                            return <UsersListElement
+                                key={user?.id}
                                 user={user} 
                                 selectUser={selectUser}
                                 refreshUsers={refreshUsers}
