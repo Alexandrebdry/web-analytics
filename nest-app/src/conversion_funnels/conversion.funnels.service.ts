@@ -1,53 +1,52 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'nestjs-prisma';
-import { ConversionFunnelsDto } from './conversion.funnels.dto';
-import { Tag, TagsService } from 'src/tags/tags.service';
+import {Injectable, NotFoundException} from '@nestjs/common';
+import {PrismaService} from 'nestjs-prisma';
+import {ConversionFunnelsDto} from './conversion.funnels.dto';
+import {Tag} from 'src/tags/tags.service';
+import {User} from "@prisma/client";
 
 export type ConversionFunnel = {
     id?: number;
     comment: string;
-    companyName: string;
     tags?: Tag[];
     deleted?: boolean;
+    userId: number
 };
 
 @Injectable()
 export class ConversionFunnelsService {
   constructor(
     private prisma: PrismaService,
-    private tagsService: TagsService
   ) {}
 
-  async create(conversionFunnelDto: ConversionFunnelsDto): Promise<ConversionFunnel> {
-    conversionFunnelDto.id = undefined;
+  async create(userId :number, conversionFunnelDto: ConversionFunnelsDto): Promise<ConversionFunnel> {
 
-    // find tags
-    const tags = await this.findTags(conversionFunnelDto.tags, conversionFunnelDto.companyName);
-
-    if (tags.length == 0) {
+    if (conversionFunnelDto.tags.length == 0) {
       throw new Error('No tags found');
     }
 
-    // create conversion funnel
-    const newConversionFunnel = await this.prisma.conversionFunnel.create({
+      return await this.prisma.conversionFunnel.create({
         data: {
             comment: conversionFunnelDto.comment,
-            companyName: conversionFunnelDto.companyName
+            user: {
+                connect: {
+                    id: userId
+                }
+            },
+            tags: {
+                connect: conversionFunnelDto.tags.map(tag => {
+                    return {
+                        id: +tag
+                    }
+                })
+            }
         }
     }) as ConversionFunnel;
-    newConversionFunnel.tags = tags;
-
-    // link tags to conversion funnel
-    await this.createLinkWithTag(newConversionFunnel, tags);
-
-    return newConversionFunnel;
   }
 
-  async update(conversionFunnelDto: ConversionFunnelsDto, companyName: string): Promise<ConversionFunnel> {
+  async update(conversionFunnelDto: ConversionFunnelsDto): Promise<ConversionFunnel> {
     return await this.prisma.conversionFunnel.update({
         where: {
             id: conversionFunnelDto.id,
-            companyName: companyName
         },
         data: {
             comment: conversionFunnelDto.comment,
@@ -66,105 +65,36 @@ export class ConversionFunnelsService {
     });
   }
   
-  async find(id: number, companyName: string): Promise<ConversionFunnel> {
+  async find(id: number): Promise<ConversionFunnel> {
     const conversionFunnel = await this.prisma.conversionFunnel.findUnique({
         where: {
             id: id,
-            companyName: companyName,
+        },
+        include: {
+            tags: true
         }
-    }) as ConversionFunnel;
+    }) as unknown as ConversionFunnel;
 
     if (!conversionFunnel) {
-      return null;
+        throw new NotFoundException(`Conversion Funnel with id ${id} not found`);
     }
-
-    const tags = await this.getTags(conversionFunnel);
 
     return conversionFunnel;
   }
 
-  async findCompany(companyName: string): Promise<ConversionFunnel[]> {
+  async findAll(user:User): Promise<ConversionFunnel[]> {
     const conversionFunnels = await this.prisma.conversionFunnel.findMany({
         where: {
-            companyName: companyName,
+            user: {
+                id: user.id
+            },
             deleted: false
+        },
+        include: {
+            tags: true
         }
-    }) as ConversionFunnel[];
-
-    for (const conversionFunnel of conversionFunnels) {
-      conversionFunnel.tags = await this.getTags(conversionFunnel) as Tag[];
-    }
+    }) as unknown as ConversionFunnel[];
 
     return conversionFunnels;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-  // private methods
-  private async findTags(tagIds: string[], companyName: string): Promise<Tag[]> {
-    const tags = [];
-    for (const tagId of tagIds) {
-      const tag = await this.tagsService.find(parseInt(tagId), companyName);
-      if (tag) {
-        tags.push(tag);
-      }
-    }
-    return tags;
-  }
-
-  private async createLinkWithTag(conversionFunnel: ConversionFunnel, tags: Tag[]) {
-    await this.prisma.conversionFunnelTag.deleteMany({
-      where: {
-        conversionFunnelId: conversionFunnel.id
-      }
-    });
-
-    const conversionFunnelTags = [];
-    for (const tag of tags) {
-      const conversionFunnelTag = await this.prisma.conversionFunnelTag.create({
-        data: {
-          tag: {
-            connect: {
-              id: tag.id
-            }
-          },
-          conversionFunnel: {
-            connect: {
-              id: conversionFunnel.id
-            }
-          }
-        }
-      });
-      conversionFunnelTags.push(conversionFunnelTag);
-    }
-
-    return conversionFunnelTags;
-  }
-
-  private async getTags(conversionFunnel: ConversionFunnel): Promise<Tag[]> {
-    const conversionFunnelTags = await this.prisma.conversionFunnelTag.findMany({
-      where: {
-        conversionFunnelId: conversionFunnel.id
-      },
-      include: {
-        tag: true
-      }
-    });
-    
-    const tags = [];
-    for (const conversionFunnelTag of conversionFunnelTags) {
-      tags.push(conversionFunnelTag.tag);
-    }
-
-    return tags;
   }
 }

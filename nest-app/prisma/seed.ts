@@ -36,7 +36,7 @@ async function main() {
     await seedConversionFunnelsTags();
     console.log('CONVERSION FUNNELS TAGS SEEDED');
     console.log('==============');
-    
+
     await seedReports();
     console.log('REPORTS SEEDED');
     console.log('==============');
@@ -259,17 +259,24 @@ async function seedReports() {
     }
 }
 
-const savedConversionFunnels: ConversionFunnel[] = [];
+/* ====================
+CONVERSION FUNNELS
+==================== */
 
 async function seedConversionFunnels() {
-    for (const conversionFunnel of conversionFunnels) {
-        const newConversionFunnel = await prisma.conversionFunnel.create({
+    const users = await prisma.user.findMany();
+    for (let i = 0; i < 10; i++) {
+        const user = users[Math.floor(Math.random() * users.length)];
+        await prisma.conversionFunnel.create({
             data: {
-                comment: conversionFunnel.comment,
-                companyName: conversionFunnel.companyName
+                comment: 'Commentaire du funnel ' + i,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
+                }
             }
         });
-        savedConversionFunnels.push(newConversionFunnel);
     }
 }
 
@@ -277,18 +284,12 @@ async function seedConversionFunnels() {
 CONVERSION FUNNELS TAGS
 ==================== */
 
-interface ConversionFunnelTag {
-    id?: number;
-    conversionFunnelId: number;
-    tagId: number;
-};
-
-const savedConversionFunnelTags: ConversionFunnelTag[] = [];
-
 async function seedConversionFunnelsTags() {
+    const savedConversionFunnels = await prisma.conversionFunnel.findMany();
+    const savedTags = await prisma.tag.findMany();
     for (const conversionFunnel of savedConversionFunnels) {
-        for (let i = 0; i < 3; i++) {
         const randomTags = [];
+        for (let i = 0; i < 3; i++) {
             const randomTag = savedTags[Math.floor(Math.random() * savedTags.length)];
             if (!randomTags.includes(randomTag)) {
                 randomTags.push(randomTag);
@@ -296,20 +297,18 @@ async function seedConversionFunnelsTags() {
         }
 
         for (const tag of randomTags) {
-            const newConversionFunnelTag = await prisma.conversionFunnelTag.create({
+            await prisma.conversionFunnelTag.create({
                 data: {
                     conversionFunnelId: conversionFunnel.id,
                     tagId: tag.id
                 }
             });
-
-            savedConversionFunnelTags.push(newConversionFunnelTag);
         }
     }
 }
 
 main()
-.catch((e) => console.error(e))
-.finally(async () => {
-    await prisma.$disconnect();
-});
+    .catch((e) => console.error(e))
+    .finally(async () => {
+        await prisma.$disconnect();
+    });

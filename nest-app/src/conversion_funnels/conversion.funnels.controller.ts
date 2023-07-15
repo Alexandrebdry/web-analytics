@@ -9,30 +9,29 @@ export class ConversionFunnelsController {
 
   @Get('')
   @UseGuards(AuthGuard)
-  findCompany(@Request() req) {
-    return this.conversionFunnelsService.findCompany(req.user.companyName);
+  findAll(@Request() req) {
+    return this.conversionFunnelsService.findAll(req.user);
   }
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  find(@Param('id') id: number, @Request() req) {
-    return this.conversionFunnelsService.find(id, req.user.companyName);
+  findOne(@Param('id') id: string, @Request() req) {
+    return this.conversionFunnelsService.find(+id);
   }
 
-  @Post('create')
+  @Post()
   @UseGuards(AuthGuard)
   create(@Body() conversionFunnelDto: ConversionFunnelsDto, @Request() req) {
-    conversionFunnelDto.companyName = req.user.companyName;
-    return this.conversionFunnelsService.create(conversionFunnelDto);
+    return this.conversionFunnelsService.create(req.user.id, conversionFunnelDto);
   }
 
-  @Put('update')
+  @Put()
   @UseGuards(AuthGuard)
   update(@Body() conversionFunnelDto: ConversionFunnelsDto, @Request() req) {
-    return this.conversionFunnelsService.update(conversionFunnelDto, req.user.companyName);
+    return this.conversionFunnelsService.update(conversionFunnelDto);
   }
 
-  @Delete('delete/:id')
+  @Delete(':id')
   @UseGuards(AuthGuard)
   delete(@Param('id') id: string) {
     return this.conversionFunnelsService.delete(parseInt(id));

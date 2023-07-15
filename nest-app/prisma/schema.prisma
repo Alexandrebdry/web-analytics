@@ -22,6 +22,7 @@ model User {
   reports    Report[]
   tags       Tag[]
   credentials Credentials[]
+  conversionFunnels ConversionFunnel[]
 }
 
 model Credentials {
@@ -33,27 +34,28 @@ model Credentials {
 }
 
 model Tag {
-  id      Int     @default(autoincrement()) @id
-  comment String
+  id               Int                   @default(autoincrement()) @id
+  comment          String
   conversionFunnel ConversionFunnelTag[]
-  deleted Boolean @default(false)
-  userId  Int
-  user    User    @relation(fields: [userId], references: [id])
+  deleted          Boolean               @default(false)
+  userId           Int
+  user             User                  @relation(fields: [userId], references: [id])
 }
 
 model ConversionFunnel {
-  id    Int     @default(autoincrement()) @id
+  id      Int                   @default(autoincrement()) @id
   comment String
-  companyName String
-  tags ConversionFunnelTag[]
-  deleted Boolean @default(false)
+  tags    ConversionFunnelTag[]
+  deleted Boolean               @default(false)
+  userId  Int
+  user    User                  @relation(fields: [userId], references: [id])
 }
 
 model ConversionFunnelTag {
-  id    Int     @default(autoincrement()) @id
-  tag Tag @relation(fields: [tagId], references: [id])
-  tagId Int
-  conversionFunnel ConversionFunnel @relation(fields: [conversionFunnelId], references: [id])
+  id                 Int              @default(autoincrement()) @id
+  tag                Tag              @relation(fields: [tagId], references: [id])
+  tagId              Int
+  conversionFunnel   ConversionFunnel @relation(fields: [conversionFunnelId], references: [id])
   conversionFunnelId Int
 }
 

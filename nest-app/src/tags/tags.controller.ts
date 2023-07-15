@@ -1,7 +1,7 @@
-import { Body, Controller, Post, UseGuards, Request, Get, Param, Put, Delete } from '@nestjs/common';
-import { TagsService } from './tags.service';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { CreateTagDto } from './dto/create-tag.dto';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards} from '@nestjs/common';
+import {TagsService} from './tags.service';
+import {AuthGuard} from 'src/auth/auth.guard';
+import {CreateTagDto} from './dto/create-tag.dto';
 import {UpdateTagDto} from "./dto/update-tag.dto";
 import { SdkGuard } from 'src/credentials/sdk.guard';
 
@@ -17,8 +17,8 @@ export class TagsController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  findOne(@Param('id') id: number) {
-    return this.tagsService.find(id);
+  findOne(@Param('id') id: string) {
+    return this.tagsService.find(+id);
   }
 
   @Get('comment/:comment')
@@ -30,7 +30,7 @@ export class TagsController {
   @Post()
   @UseGuards(AuthGuard)
   create(@Body() tagDto: CreateTagDto, @Request() req) {
-    return this.tagsService.create(req.user, tagDto);
+    return this.tagsService.create(req.user.id, tagDto);
   }
 
   @Patch(':id')
@@ -39,7 +39,7 @@ export class TagsController {
     return this.tagsService.update(+id, tagDto);
   }
 
-  @Delete('delete/:id')
+  @Delete(':id')
   @UseGuards(AuthGuard)
   delete(@Param('id') id: string) {
     return this.tagsService.delete(+id);

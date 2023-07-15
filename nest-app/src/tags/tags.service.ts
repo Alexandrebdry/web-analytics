@@ -7,7 +7,6 @@ import {User} from "@prisma/client";
 export type Tag = {
     id?: number;
     comment: string;
-    companyName: string;
     deleted?: boolean;
 };
 
@@ -18,7 +17,7 @@ export class TagsService {
     ) {
     }
 
-    async create(userId: number, tagDto: CreateTagDto) {
+    async create(userId: number, tagDto: CreateTagDto): Promise<Tag> {
         return this.prisma.tag.create({
             data: {
                 comment: tagDto.comment,
@@ -31,7 +30,7 @@ export class TagsService {
         });
     }
 
-    async update(id: number, updateTagDto: UpdateTagDto) {
+    async update(id: number, updateTagDto: UpdateTagDto): Promise<Tag> {
         const tag = await this.prisma.tag.findUnique({
             where: {id},
         });
@@ -44,7 +43,7 @@ export class TagsService {
         });
     }
 
-    async delete(id: number) {
+    async delete(id: number): Promise<Tag> {
         const tag = await this.prisma.tag.findUnique({
             where: {id},
         });
@@ -60,7 +59,7 @@ export class TagsService {
     }
 
 
-    async find(id: number) {
+    async find(id: number): Promise<Tag> {
         return this.prisma.tag.findUnique({
             where: {
                 id: id,
@@ -69,26 +68,16 @@ export class TagsService {
         });
     }
 
-    async findAllByUser(user:User) {
-        if (user.roles.includes('ROLE_ADMIN')) {
-            return this.prisma.tag.findMany({
-                where: {
-                    deleted: false
+    async findAllByUser(user: User): Promise<Tag[]> {
+        return this.prisma.tag.findMany({
+            where: {
+                deleted: false,
+                user: {
+                    id: user.id
                 }
-            });
-        }
-        else {
-            return this.prisma.tag.findMany({
-                where: {
-                    deleted: false,
-                    user: {
-                        id: user.id
-                    }
-                }
-            });
-        }
-    });
-  }
+            }
+        });
+    }
 
   async findByComment(comment: string, companyName: string): Promise<Tag> {
     return this.prisma.tag.findFirst({

@@ -2,6 +2,7 @@ import {Injectable, NotFoundException} from '@nestjs/common';
 import {CreateReportDto} from './dto/create-report.dto';
 import {UpdateReportDto} from './dto/update-report.dto';
 import { PrismaService } from 'nestjs-prisma';
+import {User} from "@prisma/client";
 
 @Injectable()
 export class ReportsService {
@@ -9,16 +10,33 @@ export class ReportsService {
       private prisma: PrismaService
   ) {}
 
-    async create(createReportDto: CreateReportDto) {
+    async create(userId: number, createReportDto: CreateReportDto) {
         const report = await this.prisma.report.create({
-            data: createReportDto,
+            data: {
+                ...createReportDto,
+                user: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
         });
         return report;
     }
 
-    async findAll() {
-        const reports = await this.prisma.report.findMany();
-        return reports;
+    async findAll(user:User) {
+        if (user.roles.includes('ROLE_ADMIN')) {
+            return this.prisma.report.findMany();
+        }
+        else {
+            return this.prisma.report.findMany({
+                where: {
+                    user: {
+                        id: user.id
+                    }
+                }
+            });
+        }
     }
 
     async findOne(id: number) {
