@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../providers/AuthProvider";
 
 const Menu = ({ children }) => {
-    const { user, setUser } = useAuthContext();
+    const { user } = useAuthContext();
     const navigate = useNavigate();
 
     const isAdmin = useCallback(() => {
@@ -47,7 +47,7 @@ const Menu = ({ children }) => {
                 >
                     <li className="pb-2">Analytics</li>
                     <li onClick={() => navigate('/')}>
-                        <a>Accueil</a>
+                        <a>Dashboard</a>
                     </li>
                     <li onClick={() => navigate('/tags')}>
                         <a>Tags</a>

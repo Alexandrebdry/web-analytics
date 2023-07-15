@@ -150,7 +150,7 @@ async function seedTags() {
         const user = users[Math.floor(Math.random() * users.length)];
         await prisma.tag.create({
             data: {
-                comment: 'Commentaire du tag ' + i,
+                comment: 'Tag-' + i,
                 user: {
                     connect: {
                         id: user.id
@@ -269,7 +269,7 @@ async function seedConversionFunnels() {
         const user = users[Math.floor(Math.random() * users.length)];
         await prisma.conversionFunnel.create({
             data: {
-                comment: 'Commentaire du funnel ' + i,
+                comment: 'Tunnel-' + i,
                 user: {
                     connect: {
                         id: user.id
