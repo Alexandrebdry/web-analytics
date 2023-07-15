@@ -44,3 +44,32 @@ export function sendData({
        })
     }
 }
+
+export async function findTagByComment ({
+    comment,
+    appID,
+    appSecret,
+}) {
+
+    try {
+        const response = await fetch(`${URL}/tags/comment/${comment}`,{
+            headers: {
+                "Content-Type": "application/json",
+                "app-id": appID,
+                "app-secret": appSecret,
+            }
+        }) ;
+        const data = await response.json() ;
+        if(data?.id)
+            return data ;
+        else
+            return null ;
+    }
+    catch (e) {
+        console.log(e) ;
+    }
+
+}
+
+
+
