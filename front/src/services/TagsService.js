@@ -15,7 +15,7 @@ export const findTag = async (id) => {
 }
 
 export const findTags = async () => {
-    const response = await fetch(API_URL + TAGS_PREFIX + '', {
+    const response = await fetch(API_URL + TAGS_PREFIX, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export const findTags = async () => {
 }
 
 export const createTag = async (tag) => {
-    const response = await fetch(API_URL + TAGS_PREFIX + '/create', {
+    const response = await fetch(API_URL + TAGS_PREFIX, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -38,8 +38,8 @@ export const createTag = async (tag) => {
 }
 
 export const updateTag = async (tag) => {
-    const response = await fetch(API_URL + TAGS_PREFIX + '/update', {
-        method: 'PUT',
+    const response = await fetch(API_URL + TAGS_PREFIX + '/' + tag.id, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)
@@ -50,7 +50,7 @@ export const updateTag = async (tag) => {
 }
 
 export const deleteTag = async (id) => {
-    const response = await fetch(API_URL + TAGS_PREFIX + '/delete/' + id, {
+    const response = await fetch(API_URL + TAGS_PREFIX + '/' + id, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { TagsModule } from './tags/tags.module';
+import { ReportsModule } from './reports/reports.module';
 import { ConversionFunnelsModule } from './conversion_funnels/conversion.funnels.module';
 import { SessionModule } from './session/session.module';
 import { ConnectionModule } from './connection/connection.module';
@@ -41,6 +42,7 @@ import { EventModule } from './event/event.module';
     UsersModule,
     RolesModule,
     TagsModule,
+    ReportsModule,
     ConversionFunnelsModule,
     SessionModule,
     ConnectionModule,

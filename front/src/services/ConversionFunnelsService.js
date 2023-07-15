@@ -15,7 +15,7 @@ export const findFunnel = async (id) => {
 }
 
 export const findFunnels = async () => {
-    const response = await fetch(API_URL + FUNNELS_PREFIX + '', {
+    const response = await fetch(API_URL + FUNNELS_PREFIX, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export const findFunnels = async () => {
 }
 
 export const createFunnel = async (funnel) => {
-    const response = await fetch(API_URL + FUNNELS_PREFIX + '/create', {
+    const response = await fetch(API_URL + FUNNELS_PREFIX, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -38,8 +38,8 @@ export const createFunnel = async (funnel) => {
 }
 
 export const updateFunnel = async (funnel) => {
-    const response = await fetch(API_URL + FUNNELS_PREFIX + '/update', {
-        method: 'PUT',
+    const response = await fetch(API_URL + FUNNELS_PREFIX + '/' + funnel.id, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(TOKEN)
@@ -50,7 +50,7 @@ export const updateFunnel = async (funnel) => {
 }
 
 export const deleteFunnel = async (id) => {
-    const response = await fetch(API_URL + FUNNELS_PREFIX + '/delete/' + id, {
+    const response = await fetch(API_URL + FUNNELS_PREFIX + '/' + id, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

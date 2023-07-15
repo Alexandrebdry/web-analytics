@@ -1,9 +1,7 @@
 import {PrismaClient} from '@prisma/client';
-import {faker} from '@faker-js/faker';
 import * as dotenv from 'dotenv';
 import * as bcrypt from 'bcrypt';
 import {v4 as uuidv4} from 'uuid';
-
 const prisma = new PrismaClient();
 
 async function main() {
@@ -13,6 +11,7 @@ async function main() {
     await prisma.conversionFunnel.deleteMany();
     await prisma.tag.deleteMany();
     await prisma.credentials.deleteMany();
+    await prisma.report.deleteMany();
     await prisma.user.deleteMany();
 
     console.log('DATABASE CLEANED');
@@ -36,6 +35,10 @@ async function main() {
 
     await seedConversionFunnelsTags();
     console.log('CONVERSION FUNNELS TAGS SEEDED');
+    console.log('==============');
+
+    await seedReports();
+    console.log('REPORTS SEEDED');
     console.log('==============');
 
     console.log('SEED DONE');
@@ -140,65 +143,119 @@ async function seedCredentials() {
 TAGS
 ==================== */
 
-interface Tag {
-    id?: number;
-    comment: string;
-    companyName: string;
-};
-
-const tags: Tag[] = [
-    {
-        comment: 'Tag Admin - 1',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Tag Admin - 2',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Tag Admin - 3',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Tag Admin - 4',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Tag Admin - 5',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Tag Maintainer - 1',
-        companyName: companies[1]
-    },
-    {
-        comment: 'Tag Maintainer - 2',
-        companyName: companies[1]
-    },
-    {
-        comment: 'Tag Maintainer - 3',
-        companyName: companies[1]
-    },
-    {
-        comment: 'Tag User - 1',
-        companyName: companies[2]
-    },
-    {
-        comment: 'Tag User - 2',
-        companyName: companies[2]
-    },
-];
-const savedTags: Tag[] = [];
-
-
 async function seedTags() {
-    for (const tag of tags) {
-        const newTag = await prisma.tag.create({
+    const users = await prisma.user.findMany();
+
+    for (let i = 0; i < 30; i++) {
+        const user = users[Math.floor(Math.random() * users.length)];
+        await prisma.tag.create({
             data: {
-                ...tag
+                comment: 'Commentaire du tag ' + i,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
+                }
             }
         });
-        savedTags.push(newTag);
+    }
+}
+
+/* ====================
+REPORTS
+==================== */
+
+enum DataType {
+    absolu = 'absolu',
+    taux = 'taux',
+}
+
+enum VisualizationType {
+    KPI = 'KPI',
+    Graphe = 'Graphe',
+    Heatmap = 'Heatmap',
+}
+
+interface Report {
+    id?: number;
+    filters: any;
+    timeScaleStart: Date;
+    timeScaleEnd: Date;
+    timeScaleStep: number;
+    dataType: DataType;
+    visualizationType: VisualizationType;
+}
+
+async function seedReports() {
+    const users = await prisma.user.findMany();
+    for (let i = 0; i < 10; i++) {
+        const user = users[Math.floor(Math.random() * users.length)];
+        await prisma.report.create({
+            data: {
+                filters: [
+                    {
+                        "name": "country",
+                        "value": "France"
+                    }
+                ],
+                timeScaleStart: new Date(),
+                timeScaleEnd: new Date(),
+                timeScaleStep: 1,
+                dataType: DataType.absolu,
+                visualizationType: VisualizationType.KPI,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
+                }
+            }
+        });
+    }
+    for (let i = 0; i < 10; i++) {
+        const user = users[Math.floor(Math.random() * users.length)];
+        await prisma.report.create({
+            data: {
+                filters: [
+                    {
+                        "name": "page",
+                        "value": "/home"
+                    }
+                ],
+                timeScaleStart: new Date(),
+                timeScaleEnd: new Date(),
+                timeScaleStep: 1,
+                dataType: DataType.absolu,
+                visualizationType: VisualizationType.Heatmap,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
+                }
+            }
+        });
+    }
+    for (let i = 0; i < 10; i++) {
+        const user = users[Math.floor(Math.random() * users.length)];
+        await prisma.report.create({
+            data: {
+                filters: [
+                    {
+                        "name": "device",
+                        "value": "mobile"
+                    }
+                ],
+                timeScaleStart: new Date(),
+                timeScaleEnd: new Date(),
+                timeScaleStep: 1,
+                dataType: DataType.taux,
+                visualizationType: VisualizationType.Graphe,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
+                }
+            }
+        });
     }
 }
 
@@ -206,60 +263,20 @@ async function seedTags() {
 CONVERSION FUNNELS
 ==================== */
 
-interface ConversionFunnel {
-    id?: number;
-    comment: string;
-    companyName: string;
-    tags?: any[];
-    deleted?: boolean;
-};
-
-const conversionFunnels: ConversionFunnel[] = [
-    {
-        comment: 'Conversion Funnel Admin - 1',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Conversion Funnel Admin - 2',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Conversion Funnel Admin - 3',
-        companyName: companies[0]
-    },
-    {
-        comment: 'Conversion Funnel Maintainer - 1',
-        companyName: companies[1]
-    },
-    {
-        comment: 'Conversion Funnel Maintainer - 2',
-        companyName: companies[1]
-    },
-    {
-        comment: 'Conversion Funnel User - 1',
-        companyName: companies[2]
-    },
-    {
-        comment: 'Conversion Funnel User - 2',
-        companyName: companies[2]
-    },
-    {
-        comment: 'Conversion Funnel User - 3',
-        companyName: companies[2]
-    },
-];
-
-const savedConversionFunnels: ConversionFunnel[] = [];
-
 async function seedConversionFunnels() {
-    for (const conversionFunnel of conversionFunnels) {
-        const newConversionFunnel = await prisma.conversionFunnel.create({
+    const users = await prisma.user.findMany();
+    for (let i = 0; i < 10; i++) {
+        const user = users[Math.floor(Math.random() * users.length)];
+        await prisma.conversionFunnel.create({
             data: {
-                comment: conversionFunnel.comment,
-                companyName: conversionFunnel.companyName
+                comment: 'Commentaire du funnel ' + i,
+                user: {
+                    connect: {
+                        id: user.id
+                    }
+                }
             }
         });
-        savedConversionFunnels.push(newConversionFunnel);
     }
 }
 
@@ -267,15 +284,9 @@ async function seedConversionFunnels() {
 CONVERSION FUNNELS TAGS
 ==================== */
 
-interface ConversionFunnelTag {
-    id?: number;
-    conversionFunnelId: number;
-    tagId: number;
-};
-
-const savedConversionFunnelTags: ConversionFunnelTag[] = [];
-
 async function seedConversionFunnelsTags() {
+    const savedConversionFunnels = await prisma.conversionFunnel.findMany();
+    const savedTags = await prisma.tag.findMany();
     for (const conversionFunnel of savedConversionFunnels) {
         const randomTags = [];
         for (let i = 0; i < 3; i++) {
@@ -286,20 +297,18 @@ async function seedConversionFunnelsTags() {
         }
 
         for (const tag of randomTags) {
-            const newConversionFunnelTag = await prisma.conversionFunnelTag.create({
+            await prisma.conversionFunnelTag.create({
                 data: {
                     conversionFunnelId: conversionFunnel.id,
                     tagId: tag.id
                 }
             });
-
-            savedConversionFunnelTags.push(newConversionFunnelTag);
         }
     }
 }
 
 main()
-.catch((e) => console.error(e))
-.finally(async () => {
-    await prisma.$disconnect();
-});
+    .catch((e) => console.error(e))
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
