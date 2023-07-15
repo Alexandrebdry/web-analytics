@@ -7,7 +7,7 @@ import RegisterPage from "../pages/auth/RegisterPage.jsx";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage.jsx";
 import NotFoundPage from "../pages/error/NotFoundPage.jsx";
-import HomePage from "../pages/HomePage.jsx";
+import DashboardPage from "../pages/DashboardPage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import AdminUsersPage from "../pages/admin/AdminUsersPage.jsx";
 import SecuredPage from "./SecuredPage.jsx";
@@ -22,12 +22,10 @@ import ConversionFunnelsPage from "../pages/ConversionFunnelsPage.jsx";
 const useRoutes = () => {
     const routes = [
         {
-            name: 'home',
+            name: 'dashboard',
             path: '/',
             element:
-                <SecuredPage scopes={[SCOPES.USER]}>
-                    <HomePage/>
-                </SecuredPage>
+                <DashboardPage/>
         },
         {
             name: 'profile',
