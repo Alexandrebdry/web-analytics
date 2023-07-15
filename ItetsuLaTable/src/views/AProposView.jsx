@@ -11,7 +11,7 @@ import OpenSourcesComponent from "../component/OpenSourcesComponent";
 import TimelineComponent from "../component/timeline/TimelineComponent";
 import TimelineItemComponent from "../component/timeline/TimelineItemComponent";
 import useScrollNavigate from "react-scroll-navigate";
-import TagTracker from "../../front-sdk/src/TagTracker";
+import {TagTrackerSDK} from "react-analytics-sdk-esgi";
 
 export default function AProposView () {
 
@@ -31,7 +31,7 @@ export default function AProposView () {
     return (
         <Box>
 
-            <TagTracker
+            <TagTrackerSDK
                 appID={"zqdqz"}
                 appSecret={"sefd"}
                 tagName={"a-propos"}

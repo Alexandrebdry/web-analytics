@@ -1,5 +1,7 @@
 import {generateUserId} from "./auth/UserUtils";
-const URL = "http://localhost:3000/api/v1/analytics" ;
+const URL = "http://localhost:3000" ;
+const eventUrl = `${URL}/events` ;
+const tagUrl = `${URL}/tags/comment` ;
 
 export function sendData({
     data,
@@ -27,12 +29,12 @@ export function sendData({
     }
 
     if(navigator && navigator.sendBeacon) {
-        const success = navigator.sendBeacon(URL, JSON.stringify(eventData)) ;
+        const success = navigator.sendBeacon(eventUrl, JSON.stringify(eventData)) ;
         if(success)
             if(callback)
                 callback() ;
     } else {
-       fetch(URL, {
+       fetch(eventUrl, {
            method: "POST",
            headers: {
                     "Content-Type": "application/json"
@@ -52,7 +54,7 @@ export async function findTagByComment ({
 }) {
 
     try {
-        const response = await fetch(`${URL}/tags/comment/${comment}`,{
+        const response = await fetch(`${tagUrl}/${comment}`,{
             headers: {
                 "Content-Type": "application/json",
                 "app-id": appID,

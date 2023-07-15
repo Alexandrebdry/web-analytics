@@ -3,7 +3,7 @@ import {Fragment, useEffect} from "react";
 import Router from "./router/Router.jsx" ;
 import FooterComponent from "@/component/FooterComponent";
 import ReactGA from 'react-ga';
-import AnalyticsSDK from "../front-sdk/src/AnalyticsSDK"
+import AnalyticsSDK from "react-analytics-sdk-esgi"
 function App() {
 
     const TRACKING_ID = "G-JCBT80D428";
