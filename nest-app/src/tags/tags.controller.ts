@@ -22,8 +22,8 @@ export class TagsController {
 
   @Get('comment/:comment')
   @UseGuards(SdkGuard)
-  findByComment(@Param('comment') comment: string, @Request() req) {
-    return this.tagsService.findByComment(comment, req.user.companyName);
+  async findOrCreateByComment(@Param('comment') comment: string, @Request() req) {
+    return await this.tagsService.findByComment(comment, req.user.companyName);
   }
 
   @Post('create')

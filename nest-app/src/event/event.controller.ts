@@ -17,6 +17,7 @@ export class EventController {
     @Get()
     @UseGuards(SdkGuard)
     async findAll(@Request() req) {
+        const filters = req.query;
         return await this.eventService.findAll(req.user.id);
     }
 }
