@@ -67,4 +67,13 @@ export class TagsService {
         }
     });
   }
+
+  async findByComment(comment: string, companyName: string): Promise<Tag> {
+    return this.prisma.tag.findFirst({
+        where: {
+            comment: comment,
+            companyName: companyName
+        }
+    });
+  }
 }

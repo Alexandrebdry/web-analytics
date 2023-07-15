@@ -4,7 +4,6 @@ import {
     Injectable,
     UnauthorizedException,
   } from '@nestjs/common';
-  import { Request } from 'express';
 import { UsersService } from '../users/users.service';
 import { CredentialsService } from './credentials.service';
   
@@ -16,8 +15,12 @@ import { CredentialsService } from './credentials.service';
       const request = context.switchToHttp().getRequest();
 
       try {
-        const appID = request.body.appID;
-        const appSecret = request.body.appSecret;
+        const appID = request.headers['app-id'];
+        const appSecret = request.headers['app-secret'];
+
+        if (!appID || !appSecret) {
+            return false;
+        }
 
         const credentials = await this.credentialsService.findByCredentials(appID, appSecret);
 
