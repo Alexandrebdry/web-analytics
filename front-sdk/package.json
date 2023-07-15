@@ -1,6 +1,6 @@
 {
   "name": "react-analytics-sdk-esgi",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "main": "./src/AnalyticsSDK.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
