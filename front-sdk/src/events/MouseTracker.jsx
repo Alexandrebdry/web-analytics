@@ -1,10 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { sendData } from '../sendData';
 
 function MouseTracker({ appID, appSecret }) {
     const location = useLocation();
-    const data = [];
+    const dataRef = useRef([]);
+
+    function sendAndResetData() {
+        if (dataRef.current.length > 0) {
+            sendData({
+                data: dataRef.current,
+                type: 'mouse',
+                appSecret: appSecret,
+                appID: appID,
+                callback: () => {
+                    dataRef.current = [];
+                },
+            });
+        }
+    }
 
     useEffect(() => {
         function collectData(event) {
@@ -14,35 +28,26 @@ function MouseTracker({ appID, appSecret }) {
             const x = pageX - scrollX;
             const y = pageY - scrollY;
 
-            data.push({ x, y });
+            dataRef.current.push({ x, y });
         }
 
-        function sendAndResetData() {
-            if (data.length > 0) {
-                sendData({
-                    data: data,
-                    type: 'mouse',
-                    appSecret: appSecret,
-                    appID: appID,
-                    callback: () => {
-                        data.length = 0;
-                    },
-                });
-            }
-        }
+        const interval = setInterval(sendAndResetData, 60000); // Send data every minute
 
         window.addEventListener('mousemove', collectData);
         window.addEventListener('scroll', collectData);
         window.addEventListener('beforeunload', sendAndResetData);
 
-        sendAndResetData();
-
         return () => {
+            clearInterval(interval);
             window.removeEventListener('mousemove', collectData);
             window.removeEventListener('scroll', collectData);
             window.removeEventListener('beforeunload', sendAndResetData);
         };
-    }, [appID, appSecret, location]);
+    }, [appID, appSecret]);
+
+    useEffect(() => {
+        sendAndResetData();
+    }, [location]);
 
     return null;
 }
