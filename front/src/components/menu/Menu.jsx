@@ -7,7 +7,7 @@ const Menu = ({ children }) => {
     const navigate = useNavigate();
 
     const isAdmin = useCallback(() => {
-        return user && user.id && user.roles.includes('ROLE_ADMIN');
+        return user && user.roles && user.roles.includes('ROLE_ADMIN');
     }, [user]);
 
     return (
