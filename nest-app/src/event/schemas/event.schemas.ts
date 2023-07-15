@@ -11,6 +11,14 @@ export interface Event extends Document {
         screenHeight: number;
         language: string;
         vendor: string;
+        os: string;
+        osVersion: string;
+        browser: string;
+        browserVersion: string;
+        cpuArchitecture: string;
+        engineName: string;
+        engineVersion: string;
+
     },
     userId: number;
 }
