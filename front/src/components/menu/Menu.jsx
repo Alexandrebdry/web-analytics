@@ -49,6 +49,9 @@ const Menu = ({ children }) => {
                     <li onClick={() => navigate('/')}>
                         <a>Dashboard</a>
                     </li>
+                    <li onClick={() => navigate('/reports')}>
+                        <a>Reports</a>
+                    </li>
                     <li onClick={() => navigate('/tags')}>
                         <a>Tags</a>
                     </li>

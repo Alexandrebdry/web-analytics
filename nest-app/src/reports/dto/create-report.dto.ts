@@ -1,4 +1,4 @@
-import {IsEnum, IsInt, IsISO8601, IsNotEmpty, IsObject, Min} from 'class-validator';
+import {IsEnum, IsInt, IsNotEmpty, IsObject, Min} from 'class-validator';
 import {Type} from "class-transformer";
 
 enum DataType {
@@ -18,15 +18,12 @@ export class CreateReportDto {
     @Type(() => Object)
     filters: any;
 
-    @IsNotEmpty()
-    @IsISO8601()
+    // @IsISO8601()
     timeScaleStart: Date;
 
-    @IsNotEmpty()
-    @IsISO8601()
+    // @IsISO8601()
     timeScaleEnd: Date;
 
-    @IsNotEmpty()
     @IsInt()
     @Min(1)
     timeScaleStep: number;

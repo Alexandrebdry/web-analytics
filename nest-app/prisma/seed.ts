@@ -2,6 +2,7 @@ import {PrismaClient} from '@prisma/client';
 import * as dotenv from 'dotenv';
 import * as bcrypt from 'bcrypt';
 import {v4 as uuidv4} from 'uuid';
+import {faker} from "@faker-js/faker";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -187,19 +188,19 @@ interface Report {
 }
 
 async function seedReports() {
+    const filters = ['mouse', 'click', 'session', 'pageVisited', 'connexion'];
     const users = await prisma.user.findMany();
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         const user = users[Math.floor(Math.random() * users.length)];
         await prisma.report.create({
             data: {
                 filters: [
                     {
-                        "name": "country",
-                        "value": "France"
+                        "type": filters[Math.floor(Math.random() * filters.length)],
                     }
                 ],
-                timeScaleStart: new Date(),
-                timeScaleEnd: new Date(),
+                timeScaleStart: faker.date.past(),
+                timeScaleEnd: faker.date.recent(),
                 timeScaleStep: 1,
                 dataType: DataType.absolu,
                 visualizationType: VisualizationType.KPI,
@@ -211,14 +212,13 @@ async function seedReports() {
             }
         });
     }
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         const user = users[Math.floor(Math.random() * users.length)];
         await prisma.report.create({
             data: {
                 filters: [
                     {
-                        "name": "page",
-                        "value": "/home"
+                        "type": filters[Math.floor(Math.random() * filters.length)],
                     }
                 ],
                 timeScaleStart: new Date(),
@@ -234,14 +234,13 @@ async function seedReports() {
             }
         });
     }
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         const user = users[Math.floor(Math.random() * users.length)];
         await prisma.report.create({
             data: {
                 filters: [
                     {
-                        "name": "device",
-                        "value": "mobile"
+                        "type": filters[Math.floor(Math.random() * filters.length)],
                     }
                 ],
                 timeScaleStart: new Date(),
