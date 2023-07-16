@@ -2,14 +2,14 @@ import {useAuthContext} from "../providers/AuthProvider.jsx";
 import NotFoundPage from "../pages/error/NotFoundPage.jsx";
 import {useNavigate} from "react-router-dom";
 import {hasPermissions, PERMISSIONS, useRole} from "./permissions.js";
+import {TOKEN} from "../services/apiConstantes.js";
 
 export default function SecuredPage({children, scopes = []}) {
     const { user } = useAuthContext() ;
     const navigate = useNavigate() ;
-    if(user && user.role) {
+    if(user && user.roles) {
         const role  = useRole(user) ;
 
-        // @ts-ignore
         if(scopes.length > 0 ) {
             let permissions
             if(role) {
@@ -21,10 +21,10 @@ export default function SecuredPage({children, scopes = []}) {
             if(!isGranted) {
                 return <NotFoundPage/> ;
             }
-            return children ;
         }
+        return children ;
     }
-    else if (localStorage.getItem(import.meta.env.TOKEN_SECRET) === null) {
+    else if (localStorage.getItem(TOKEN) === null) {
         navigate('/login') ;
     }
 }

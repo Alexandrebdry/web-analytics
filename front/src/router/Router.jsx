@@ -7,27 +7,61 @@ import RegisterPage from "../pages/auth/RegisterPage.jsx";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage.jsx";
 import NotFoundPage from "../pages/error/NotFoundPage.jsx";
-import HomePage from "../pages/HomePage.jsx";
+import DashboardPage from "../pages/DashboardPage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
+import AdminUsersPage from "../pages/admin/AdminUsersPage.jsx";
 import SecuredPage from "./SecuredPage.jsx";
 import {SCOPES} from "./permissions.js";
+import TagsPage from "../pages/TagsPage.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
+import CredentialsPage from "../pages/CredentialsPage.jsx";
+import ConversionFunnelsPage from "../pages/ConversionFunnelsPage.jsx";
+import ReportsPage from "../pages/ReportsPage.jsx";
 
 
 
 const useRoutes = () => {
     const routes = [
         {
-            name: 'home',
+            name: 'dashboard',
             path: '/',
             element:
-                <SecuredPage scopes={[SCOPES.USER]}>
-                    <HomePage/>
-                </SecuredPage>
+                <DashboardPage/>
+        },
+        {
+            name: 'profile',
+            path: '/profile',
+            element:
+                <ProfilePage/>
+        },
+        {
+            name: 'tags',
+            path: '/tags',
+            element:
+                <TagsPage />
+        },
+        {
+            name: 'conversion_funnels',
+            path: '/conversion-funnels',
+            element:
+                <ConversionFunnelsPage />
+        },
+        {
+            name: 'credentials',
+            path: '/credentials',
+            element:
+                <CredentialsPage />
+        },
+        {
+            name: 'reports',
+            path: '/reports',
+            element:
+                <ReportsPage />
         }
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route}  />
     });
 }
 
@@ -40,11 +74,19 @@ const useAdminRoute = () => {
                 <SecuredPage scopes={[SCOPES.ADMIN]}>
                     <AdminPage/>
                 </SecuredPage>
+        },
+        {
+            name: 'admin-users',
+            path: '/admin/users',
+            element:
+                <SecuredPage scopes={[SCOPES.ADMIN]}>
+                    <AdminUsersPage />
+                </SecuredPage>
         }
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route}  />
     });
 }
 
@@ -73,7 +115,7 @@ const useAuthRoute = () => {
     ];
 
     return routes.map((route) => {
-        return <Route key={route.name} path={route.path} element={route.element} />
+        return <Route key={route.name} {...route} />
     });
 }
 
@@ -85,17 +127,15 @@ export default function Router() {
     return (
         <Suspense>
             <Routes>
-                <Route path={'/'} element={<AppLayout/>}>
+                <Route path={''} element={<AppLayout/>}>
                     {
                         routes.map(route => route)
                     }
-                </Route>
-                <Route path={''} element={<AdminLayout/>}>
                     {
                         adminRoutes.map(route => route)
                     }
                 </Route>
-                <Route path={''} >
+                <Route path={'/'}>
                     {
                         authRoutes.map(route => route)
                     }

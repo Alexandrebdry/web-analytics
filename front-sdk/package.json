@@ -1,0 +1,17 @@
+{
+  "name": "react-analytics-sdk-esgi",
+  "version": "2.0.3",
+  "main": "./src/AnalyticsSDK.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-router-dom": "^6.14.1",
+    "ua-parser-js": "^1.0.35",
+    "uuid": "^9.0.0"
+  },
+  "description": ""
+}

@@ -1,0 +1,83 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int    @default(autoincrement()) @id
+  username    String
+  email       String @unique
+  password    String
+  companyName String
+  companyKBIS String
+  companyURL  String
+
+  isVerified        Boolean            @default(false)
+  roles             String[]
+  reports           Report[]
+  tags              Tag[]
+  credentials       Credentials[]
+  conversionFunnels ConversionFunnel[]
+}
+
+model Credentials {
+  id        Int    @default(autoincrement()) @id
+  appID     String
+  appSecret String
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model Tag {
+  id               Int                   @default(autoincrement()) @id
+  comment          String
+  conversionFunnel ConversionFunnelTag[]
+  deleted          Boolean               @default(false)
+  userId           Int
+  user             User                  @relation(fields: [userId], references: [id])
+}
+
+model ConversionFunnel {
+  id      Int                   @default(autoincrement()) @id
+  comment String
+  tags    ConversionFunnelTag[]
+  deleted Boolean               @default(false)
+  userId  Int
+  user    User                  @relation(fields: [userId], references: [id])
+}
+
+model ConversionFunnelTag {
+  id                 Int              @default(autoincrement()) @id
+  tag                Tag              @relation(fields: [tagId], references: [id])
+  tagId              Int
+  conversionFunnel   ConversionFunnel @relation(fields: [conversionFunnelId], references: [id])
+  conversionFunnelId Int
+}
+
+model Report {
+  id                Int               @default(autoincrement()) @id
+  filters           Json
+  timeScaleStart    DateTime?
+  timeScaleEnd      DateTime?
+  timeScaleStep     Int?
+  dataType          DataType
+  visualizationType VisualizationType
+  userId            Int
+  user              User              @relation(fields: [userId], references: [id])
+}
+
+enum DataType {
+  absolu
+  taux
+}
+
+enum VisualizationType {
+  KPI
+  Graphe
+  Heatmap
+}

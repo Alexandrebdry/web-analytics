@@ -9,8 +9,8 @@ export const SCOPES = {
 }
 
 export const PERMISSIONS = {
-    ADMIN: [SCOPES.ADMIN, SCOPES.USER],
-    USER: [SCOPES.USER],
+    ROLE_ADMIN: [SCOPES.ADMIN, SCOPES.USER],
+    ROLE_USER: [SCOPES.USER],
 }
 
 export const useRole = (user) => {
@@ -27,16 +27,15 @@ export const useRole = (user) => {
 }
 
 export const hasPermissions = ({permissions = [], scopes = []}) => {
-    const userScopes = [] ;
+    const userScopes = {};
 
-    scopes.forEach(scope => {
-        userScopes[scope] = true;
-    }) ;
-
-    // test if user has permission sans utilser some ni de boucle
-    return permissions.some(permission => {
-        return userScopes[permission];
+    scopes.forEach((scope) => {
+        userScopes[scope] = true
     });
+
+    if (!permissions) return null;
+
+    return permissions.some((permission) => userScopes[permission]);
 
 }
 
