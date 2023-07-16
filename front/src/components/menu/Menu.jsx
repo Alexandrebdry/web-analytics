@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../providers/AuthProvider";
 
 const Menu = ({ children }) => {
-    const { user, setUser } = useAuthContext();
+    const { user } = useAuthContext();
     const navigate = useNavigate();
 
     const isAdmin = useCallback(() => {
-        return user && user.roles.includes('ROLE_ADMIN');
+        return user && user.roles && user.roles.includes('ROLE_ADMIN');
     }, [user]);
 
     return (
@@ -47,7 +47,7 @@ const Menu = ({ children }) => {
                 >
                     <li className="pb-2">Analytics</li>
                     <li onClick={() => navigate('/')}>
-                        <a>Accueil</a>
+                        <a>Dashboard</a>
                     </li>
                     <li onClick={() => navigate('/reports')}>
                         <a>Reports</a>

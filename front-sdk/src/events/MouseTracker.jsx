@@ -1,10 +1,26 @@
-import {useEffect} from "react";
-import {sendData} from "../sendData";
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { sendData } from '../sendData';
 
 function MouseTracker({ appID, appSecret }) {
-    useEffect(() => {
-        let data = [];
+    const location = useLocation();
+    const dataRef = useRef([]);
 
+    function sendAndResetData() {
+        if (dataRef.current.length > 0) {
+            sendData({
+                data: dataRef.current,
+                type: 'mouse',
+                appSecret: appSecret,
+                appID: appID,
+                callback: () => {
+                    dataRef.current = [];
+                },
+            });
+        }
+    }
+
+    useEffect(() => {
         function collectData(event) {
             const { pageX, pageY } = event;
             const { scrollX, scrollY } = window;
@@ -12,32 +28,26 @@ function MouseTracker({ appID, appSecret }) {
             const x = pageX - scrollX;
             const y = pageY - scrollY;
 
-            data.push({ x, y });
+            dataRef.current.push({ x, y });
         }
+
+        const interval = setInterval(sendAndResetData, 60000); // Send data every minute
 
         window.addEventListener('mousemove', collectData);
         window.addEventListener('scroll', collectData);
-
-        const interval = setInterval(() => {
-            if (data.length > 0) {
-                sendData({
-                    data: data,
-                    type: 'mouse',
-                    appSecret: appSecret,
-                    appID: appID,
-                    callback: () => {
-                        data = [];
-                    },
-                });
-            }
-        }, 5000);
+        window.addEventListener('beforeunload', sendAndResetData);
 
         return () => {
+            clearInterval(interval);
             window.removeEventListener('mousemove', collectData);
             window.removeEventListener('scroll', collectData);
-            clearInterval(interval);
+            window.removeEventListener('beforeunload', sendAndResetData);
         };
-    }, []);
+    }, [appID, appSecret]);
+
+    useEffect(() => {
+        sendAndResetData();
+    }, [location]);
 
     return null;
 }

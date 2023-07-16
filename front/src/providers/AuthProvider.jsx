@@ -13,33 +13,33 @@ export default function AuthProvider( {children} ) {
     const location = useLocation();
 
     useEffect(() => {
-        if(user === null) {
-            const token = localStorage.getItem(TOKEN);
-            if (!token) {
-                if( location.pathname !== '/login' ) {
-                   if( location.pathname !== '/register' ) {
-                      if (location.pathname !== '/forgot-password') {
-                        if( location.pathname !== '/reset-password' ) {
-                            navigate('/login');
-                        }
-                      }
-                   }
-                }
-            } else {
-                profile().then((response) => {
-                    if(response && response.statusCode && response.statusCode === 401) {
-                        localStorage.removeItem(TOKEN);
+        const token = localStorage.getItem(TOKEN);
+        if (!token) {
+            if( location.pathname !== '/login' ) {
+                if( location.pathname !== '/register' ) {
+                    if (location.pathname !== '/forgot-password') {
+                    if( location.pathname !== '/reset-password' ) {
                         navigate('/login');
                     }
-                    setUser(response);
-                }).catch((error) => {
+                    }
+                }
+            }
+        } else {
+            profile().then((response) => {
+                if(
+                    (response && response.statusCode && response.statusCode === 401)
+                    || (!response.id)
+                ) {
                     localStorage.removeItem(TOKEN);
                     navigate('/login');
-                });
-            }
+                }
+                setUser(response);
+            }).catch((error) => {
+                localStorage.removeItem(TOKEN);
+                navigate('/login');
+            });
         }
     }, [token]);
-
 
     return (
         <AuthContext.Provider value={{user,setUser, setToken}}>

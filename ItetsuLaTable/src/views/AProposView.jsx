@@ -30,10 +30,9 @@ export default function AProposView () {
 
     return (
         <Box>
-
             <TagTrackerSDK
-                appID={"zqdqz"}
-                appSecret={"sefd"}
+                appID={"606a54ca-c368-46f7-a16d-8448e917437b"}
+                appSECRET={"82e3e439-808c-4fbd-b450-955497e173db"}
                 tagName={"a-propos"}
             />
 

@@ -90,10 +90,14 @@ export class TagsService {
         }
     }
 
-  async findByComment(comment: string): Promise<Tag> {
+  async findByComment(comment: string, user: User): Promise<Tag> {
     return this.prisma.tag.findFirst({
         where: {
             comment: comment,
+            deleted: false,
+            user: {
+                id: user.id
+            }
         }
     });
   }

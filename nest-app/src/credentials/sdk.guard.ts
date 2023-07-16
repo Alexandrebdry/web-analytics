@@ -13,12 +13,16 @@ import { CredentialsService } from './credentials.service';
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest();
+      
+      if (typeof request.body === 'string' || request.body instanceof String) {
+        request.body = JSON.parse(request.body);
+      }
 
       try {
         let appID = request.headers['app-id'];
         let appSecret = request.headers['app-secret'];
 
-        if (!appID || !appSecret) {
+        if ((!appID || appID === undefined) || (!appSecret || appSecret === undefined)) {
           appID = request.body.appID;
           appSecret = request.body.appSecret;
         }

@@ -16,8 +16,8 @@ function App() {
     return (
         <Fragment>
             <AnalyticsSDK
-                appID={"zqdqz"}
-                appSECRET={"sefd"}
+                appID={"606a54ca-c368-46f7-a16d-8448e917437b"}
+                appSECRET={"82e3e439-808c-4fbd-b450-955497e173db"}
             />
             <HeaderComponent/>
             <Router/>
