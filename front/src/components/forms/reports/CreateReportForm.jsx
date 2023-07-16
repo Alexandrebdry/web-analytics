@@ -87,7 +87,7 @@ const CreateReportForm = ({closeModal, refreshReports}) => {
             </div>
 
             <div className="flex gap-2 mt-10">
-                <button className="btn btn-warning" onClick={closeModal}>Annuler</button>
+                <button type={"button"} className="btn btn-warning" onClick={closeModal}>Annuler</button>
                 <button type="submit" className="btn btn-primary">Créer</button>
             </div>
         </form>
