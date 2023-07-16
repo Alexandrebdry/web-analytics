@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import {ClickTracker} from "./events/ClickTracker";
 import {isAppRegistered} from "./auth/register";
 import SessionTracker from "./events/SessionTracker";
@@ -23,17 +22,7 @@ export function TagTrackerSDK ({appID, appSECRET, tagName }) {
 
 export default function AnalyticsSDK ({ appID, appSECRET }) {
 
-    const [isRegistered, setIsRegistered] = useState(false) ;
 
-
-    useEffect(() => {
-        isAppRegistered(appID, appSECRET, (data) => {
-            setIsRegistered(data) ;
-        }) ;
-
-    },[]) ;
-
-    if (isRegistered) {
 
         return (
             <>
