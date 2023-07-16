@@ -3,6 +3,7 @@ import { findReportEvents } from "../../services/EventService";
 import KpiDisplay from "./KpiDisplay";
 import GraphDisplay from "./GraphDisplay";
 import HeatmapDisplay from "./HeatmapDisplay";
+import GraphBarDisplay from "./GraphBarDisplay";
 
 const ReportsListElement = ({report}) => {
     const [events, setEvents] = useState([]);
@@ -24,7 +25,11 @@ const ReportsListElement = ({report}) => {
     if (report.visualizationType === 'KPI') {
         return <KpiDisplay events={events} report={report}/>
     } else if (report.visualizationType === 'Graphe') {
-        return <GraphDisplay events={events} report={report}/>
+        if (report.dataType === 'taux') {
+            return <GraphDisplay events={events} report={report}/>
+        } else {
+            return <GraphBarDisplay events={events} report={report}/>
+        }
     } else if (report.visualizationType === 'Heatmap') {
         return <HeatmapDisplay events={events} report={report}/>
     }
