@@ -1,4 +1,4 @@
-const GraphDisplay = ({events}) => {
+const GraphDisplay = ({events, report}) => {
     return (
         <>
             <p>Graph</p>

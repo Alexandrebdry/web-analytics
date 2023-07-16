@@ -44,6 +44,19 @@ export class EventController {
             }
         }
 
+        if (report.timeScaleStart) {
+            filters.date = {
+                $gte: report.timeScaleStart,
+            };
+        }
+
+        if (report.timeScaleEnd) {
+            filters.date = {
+                ...filters.date,
+                $lte: report.timeScaleEnd,
+            };
+        }
+
         filters.userId = req.user.id;
 
         console.log(filters);
