@@ -8,7 +8,6 @@ export default function DashboardPage() {
     const getReports = async () => {
         const response = await findReports();
         if (response) {
-            console.log(response);
             setReports(response);
         }
     }

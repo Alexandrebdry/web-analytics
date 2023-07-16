@@ -10,24 +10,51 @@ const ReportsListElement = ({report}) => {
     const getEvents = async () => {
         const response = await findReportEvents(report.id)
         if (response) {
-            console.log(response);
             setEvents(response);
         }
     }
 
     useEffect(() => {
         getEvents();
+        setInterval(() => {
+            getEvents();
+        }, 10000);
     }, []);
 
     if (report.visualizationType === 'KPI') {
-        return <KpiDisplay events={events} />
+        return <KpiDisplay events={events} report={report}/>
     } else if (report.visualizationType === 'Graphe') {
-        return <GraphDisplay events={events} />
+        return <GraphDisplay events={events} report={report}/>
     } else if (report.visualizationType === 'Heatmap') {
-        return <HeatmapDisplay events={events} />
+        return <HeatmapDisplay events={events} report={report}/>
     }
 
     return '';
 }
 
 export default ReportsListElement;
+
+export const getTypeTranslation = (report) => {
+    const translations = {
+        'KPI': 'Indicateur',
+        'Graphe': 'Graphique',
+        'Heatmap': 'Heatmap',
+        'mouse': 'Déplacement du curseur',
+        'click': 'Clics',
+        'session': 'Sessions',
+        'pageVisited': 'Pages visitées',
+        'connexion': 'Connexions',
+    };
+
+    for (const key in report.filters) {
+        const filter = report.filters[key];
+        if (filter.type) {
+            return translations[filter.type] ?? filter.type;
+        }
+    }
+    return '';
+}
+
+export const getDateToFormat = (date) => {
+    return new Date(date).toLocaleDateString('fr-FR')
+}

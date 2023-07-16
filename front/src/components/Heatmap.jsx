@@ -1,34 +1,39 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const Heatmap = ({ data }) => {
+const Heatmap = ({ data, width = 600, height = 400 }) => {
     const ref = useRef();
 
     useEffect(() => {
-        const svg = d3
-            .select(ref.current)
-            .attr("width", window.innerWidth)
-            .attr("height", window.innerHeight);
-
+        const svg = d3.select(ref.current)
+            .attr("width", width)
+            .attr("height", height);
+          
         const colorScale = d3
             .scaleLinear()
             .domain([0, d3.max(data, (d) => d.value)])
-            .range(["#8FBC8F", "#006400"]);
-
+            .range(["#570DF820", "#570DF820"]);
+    
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.x)])
+            .range([0, width]);
+    
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.y)])
+            .range([0, height]);
+    
         svg.selectAll("circle")
             .data(data)
             .join("circle")
-            .attr("cx", (d) => d.x)
-            .attr("cy", (d) => d.y)
+            .attr("cx", (d) => xScale(d.x))
+            .attr("cy", (d) => yScale(d.y))
             .attr("r", (d) => d.value * 3)
-            .style("fill", (d) => colorScale(d.value));
-    }, [data]);
+            .attr("fill", (d) => colorScale(d.value));
+    
+    }, [data, height, width]);
+    
     return (
-        <div className="max-w-sm w-full lg:max-w-full lg:flex">
-            <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                <svg ref={ref} />
-            </div>
-        </div>
+        <svg ref={ref}/>
     );
 };
 
