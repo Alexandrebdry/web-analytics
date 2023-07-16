@@ -26,24 +26,22 @@ const HeatmapDisplay = ({events, report}) => {
     }, []);
 
     return (
-        <>
-            <div className="card shadow">
-                <div class="card-body">
-                    <p className="card-title">Heatmap</p>
-                    <div ref={ref}></div>
-                    {
-                        width && height
-                            ? <Heatmap
-                                data={data}
-                                width={width}
-                                height={height}
-                            />
-                            : `${width}x ${height}y`
-                    }
-                    <p className="card-text">Entre le {getDateToFormat(report.timeScaleStart)} et le {getDateToFormat(report.timeScaleEnd)}</p>
-                </div>
+        <div className="card shadow mt-4">
+            <div class="card-body">
+                <p className="card-title">Heatmap</p>
+                <div ref={ref}></div>
+                {
+                    width && height
+                        ? <Heatmap
+                            data={data}
+                            width={width}
+                            height={height}
+                        />
+                        : `${width}x ${height}y`
+                }
+                <p className="card-text">Entre le {getDateToFormat(report.timeScaleStart)} et le {getDateToFormat(report.timeScaleEnd)}</p>
             </div>
-        </>
+        </div>
     );
 }
 

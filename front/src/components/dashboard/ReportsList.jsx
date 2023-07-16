@@ -1,3 +1,4 @@
+import GraphDisplayList from "./GraphDisplayList";
 import KpiDisplayList from "./KpiDisplayList";
 import ReportsListElement from "./ReportsListElement";
 
@@ -15,11 +16,15 @@ const ReportsList = ({reports}) => {
                     })
                 }
             </KpiDisplayList>
-            {
-                graphReports.map((report, index) => {
-                    return <ReportsListElement key={`dashboard_graph_${index}`} report={report} />
-                })
-            }
+
+            <GraphDisplayList>
+                {
+                    graphReports.map((report, index) => {
+                        return <ReportsListElement key={`dashboard_graph_${index}`} report={report} />
+                    })
+                }
+            </GraphDisplayList>
+            
             {
                 heatmapReports.map((report, index) => {
                     return <ReportsListElement key={`dashboard_heatmap_${index}`} report={report} />
