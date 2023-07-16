@@ -13,6 +13,12 @@ export class EventService {
     }
 
     async findAll(userId: number): Promise<Event[]> {
-        return this.eventModel.find({ userId: userId }).exec();
+        return this.eventModel.find({
+            userId: userId
+        }).exec();
+    }
+
+    async findByFilters(filters: any): Promise<Event[]> {
+        return this.eventModel.find(filters).exec();
     }
 }
