@@ -8,6 +8,9 @@ analytics / le backoffice de la plateforme.
 
 ## Getting Started
 
+### SDK Front 
+Voir le README du dossier front-sdk
+
 Un .env est nécessaire dans les dossiers suivants : 
 
  - front 
