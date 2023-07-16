@@ -12,7 +12,7 @@ const Heatmap = ({ data, width = 600, height = 400 }) => {
         const colorScale = d3
             .scaleLinear()
             .domain([0, d3.max(data, (d) => d.value)])
-            .range(["#8FBC8F20", "#8FBC8F20"]);
+            .range(["#570DF820", "#570DF820"]);
     
         const xScale = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.x)])

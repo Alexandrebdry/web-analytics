@@ -15,6 +15,7 @@ const ReportsListElement = ({report}) => {
     }
 
     useEffect(() => {
+        getEvents();
         setInterval(() => {
             getEvents();
         }, 10000);
@@ -33,7 +34,7 @@ const ReportsListElement = ({report}) => {
 
 export default ReportsListElement;
 
-export const getTypeTranslation = (type) => {
+export const getTypeTranslation = (report) => {
     const translations = {
         'KPI': 'Indicateur',
         'Graphe': 'Graphique',
@@ -45,7 +46,13 @@ export const getTypeTranslation = (type) => {
         'connexion': 'Connexions',
     };
 
-    return translations[type] ?? type;
+    for (const key in report.filters) {
+        const filter = report.filters[key];
+        if (filter.type) {
+            return translations[filter.type] ?? filter.type;
+        }
+    }
+    return '';
 }
 
 export const getDateToFormat = (date) => {

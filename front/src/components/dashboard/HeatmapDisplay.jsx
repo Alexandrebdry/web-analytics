@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Heatmap from "../Heatmap";
-import { getDateToFormat } from "./ReportsListElement";
+import { getDateToFormat, getTypeTranslation } from "./ReportsListElement";
 
 const HeatmapDisplay = ({events, report}) => {
     const data = events.reduce((acc, event) => {
@@ -27,8 +27,8 @@ const HeatmapDisplay = ({events, report}) => {
 
     return (
         <div className="card shadow mt-4">
-            <div class="card-body">
-                <p className="card-title">Heatmap</p>
+            <div className="card-body">
+                <p className="card-title">Heatmap - {getTypeTranslation(report)}</p>
                 <div ref={ref}></div>
                 {
                     width && height
