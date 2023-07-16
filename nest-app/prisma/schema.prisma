@@ -62,9 +62,9 @@ model ConversionFunnelTag {
 model Report {
   id                Int               @default(autoincrement()) @id
   filters           Json
-  timeScaleStart    DateTime
-  timeScaleEnd      DateTime
-  timeScaleStep     Int // Step de l'échelle de temps, en minutes
+  timeScaleStart    DateTime?
+  timeScaleEnd      DateTime?
+  timeScaleStep     Int?
   dataType          DataType
   visualizationType VisualizationType
   userId            Int

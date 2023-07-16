@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Report" ALTER COLUMN "timeScaleStart" DROP NOT NULL,
+ALTER COLUMN "timeScaleEnd" DROP NOT NULL,
+ALTER COLUMN "timeScaleStep" DROP NOT NULL;

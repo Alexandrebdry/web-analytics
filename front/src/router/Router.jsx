@@ -16,6 +16,7 @@ import TagsPage from "../pages/TagsPage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import CredentialsPage from "../pages/CredentialsPage.jsx";
 import ConversionFunnelsPage from "../pages/ConversionFunnelsPage.jsx";
+import ReportsPage from "../pages/ReportsPage.jsx";
 
 
 
@@ -52,6 +53,12 @@ const useRoutes = () => {
             path: '/credentials',
             element:
                 <CredentialsPage />
+        },
+        {
+            name: 'reports',
+            path: '/reports',
+            element:
+                <ReportsPage />
         }
     ];
 
