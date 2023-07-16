@@ -5,11 +5,13 @@ import { UsersModule } from 'src/users/users.module';
 import { CredentialsModule } from 'src/credentials/credentials.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventSchema } from './schemas/event.schemas';
+import { ReportsModule } from 'src/reports/reports.module';
 
 @Module({
   imports: [
     UsersModule,
     CredentialsModule,
+    ReportsModule,
     MongooseModule.forFeature([
       { name: 'Event', schema: EventSchema }
     ])

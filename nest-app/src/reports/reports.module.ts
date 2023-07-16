@@ -9,6 +9,7 @@ import {UsersModule} from "../users/users.module";
     UsersModule
   ],
   controllers: [ReportsController],
-  providers: [ReportsService, PrismaService]
+  providers: [ReportsService, PrismaService],
+  exports: [ReportsService]
 })
 export class ReportsModule {}

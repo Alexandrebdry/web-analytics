@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { findReports } from "../services/ReportsService";
+import ReportsList from "../components/reports/ReportsList";
 
 export default function DashboardPage() {
     const [reports, setReports] = useState([]);
@@ -20,7 +21,7 @@ export default function DashboardPage() {
         <>
             <h1 className="text-2xl">Dashboard</h1>
 
-            
+            <ReportsList reports={reports} />
         </>
     );
 }
