@@ -8,16 +8,13 @@ analytics / le backoffice de la plateforme.
 
 ## Getting Started
 
-### SDK Front 
-Voir le README du dossier front-sdk
-
-Un .env est nécessaire dans les dossiers suivants : 
-
- - front 
- - nest-app
-
 
 ### Launch the project:
+
+Create the .env file using the .env.example file. Two env files are needed in : 
+
+- front folder
+- nest-app folder
 
 #### Using Docker:
 
@@ -31,42 +28,31 @@ Up the containers:
 docker compose up -d
 ```
 
-### Init the project
+### Init the postgres database:
+
+
 ```bash
-npx prisma migrate dev --name init
+docker compose exec api npx prisma migrate dev --name init
 ```
 
+### Test the project:
+
+By default, this project allow you to test the analytics API using the test website (ItetsuLaTable) and the test backend (nest-app).
+
+1. Launch the seeding :
 ```bash
 docker compose exec api npm run seed
 ```
 
-
-Le site vitrine est accessible ici
-http://localhost
-
-le dashboard est accessible ici
-http://localhost:5173
-
-L'identifiant user généré via le seedeur est :
-- email : user@user.fr
-- pwd : user
-
-L'identifiant admin généré via le seedeur est : 
-- email : admin@admin.fr
-- pwd : admin
-
-### Test the project:
-
-Par défaut, ce projet vous permet de tester l'API d'analyse en utilisant le site de test (ItetsuLaTable) et le backend de test (nest-app).
-
-1. Lancer le seedeur
-
-2. Connectez-vous au backoffice en utilisant les identifiants suivants :
+2. Connect to the backoffice using the following credentials: http://localhost:5173
 ```bash
 email: user@user.fr
 password: user
 ```
 
-3. Lier votre application (ItetsuLaTable) à l'API d'analyse en utilisant l'appID et l'appSecret générés lors du seeding (voir les logs pour un gain de temps)
+3. Link your app (ItetsuLaTable) to the analytics API using appID and appSecret logged during the seeding.
+You need to change credentials in src/App.jsx and in src/views/AProposView.jsx
 
-4. Lancer le site de test (ItetsuLaTable) et naviguez dessus pour ajouter des données à l'API d'analyse
+5. Launch the test website (ItetsuLaTable) and navigate on it to add some data to the analytics API : http://localhost
+
+6.  to see how to use the SDK in front app go to front-sdk/readme.md
