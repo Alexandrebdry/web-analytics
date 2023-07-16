@@ -46,17 +46,16 @@ const GraphDisplay = ({events, report}) => {
 
     useEffect(() => {
         const data = events.reduce((acc, event) => {
-            const date = new Date(event.date).toLocaleDateString('fr-FR');
             let value = 1;
 
             if (event.data && !isNaN(event.data)) {
                 value = event.data;
             }
 
-            if (acc[date]) {
-                acc[date] += value;
+            if (acc[event.date]) {
+                acc[event.date] += value;
             } else {
-                acc[date] = value;
+                acc[event.date] = value;
             }
             return acc;
         }, {});
@@ -64,7 +63,9 @@ const GraphDisplay = ({events, report}) => {
     }, [events]);
 
     const data = {
-        labels: Object.keys(dataByDate).sort((a, b) => new Date(a) - new Date(b)),
+        labels: Object.keys(dataByDate).sort((a, b) => new Date(a) - new Date(b)).map((date) => {
+            return getDateToFormat(date);
+        }),
         datasets: [
             {
                 label: getTypeTranslation(report),
