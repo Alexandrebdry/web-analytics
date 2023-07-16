@@ -10,5 +10,8 @@ export default defineConfig({
     watch: {
       usePolling: true
     }
+  },
+  optimizeDeps: {
+    exclude: ['react-chartjs-2']
   }
 })
