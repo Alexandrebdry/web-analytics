@@ -59,7 +59,6 @@ export class EventController {
 
         filters.userId = req.user.id;
 
-        console.log(filters);
         return await this.eventService.findByFilters(filters);
     }
 }

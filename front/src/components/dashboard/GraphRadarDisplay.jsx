@@ -32,7 +32,7 @@ const options = {
     aspectRatio: 1.5,
 };
 
-const GraphBarDisplay = ({events, report}) => {
+const GraphRadarDisplay = ({events, report}) => {
     const [dataByValue, setDataByValue] = useState([]);
 
     useEffect(() => {
@@ -46,7 +46,6 @@ const GraphBarDisplay = ({events, report}) => {
             }
             return acc;
         }, {});
-        console.log(data);
         setDataByValue(data);
     }, [events]);
 
@@ -68,7 +67,7 @@ const GraphBarDisplay = ({events, report}) => {
     return (
         <div className="card shadow mt-4">
             <div className="card-body">
-                <p className="card-title">Evolution des {(getTypeTranslation(report)).toLowerCase()}</p>
+                <p className="card-title">Répartition des {(getTypeTranslation(report)).toLowerCase()}</p>
                 <Radar options={options} data={data} />
                 <p className="card-text text-xs">Entre le {getDateToFormat(report.timeScaleStart)} et le {getDateToFormat(report.timeScaleEnd)}</p>
             </div>
@@ -76,4 +75,4 @@ const GraphBarDisplay = ({events, report}) => {
     );
 }
 
-export default GraphBarDisplay;
+export default GraphRadarDisplay;

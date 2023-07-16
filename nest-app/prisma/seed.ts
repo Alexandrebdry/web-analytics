@@ -137,6 +137,17 @@ async function seedCredentials() {
                 userId: user.id
             }
         });
+
+        if (user.username === 'user') {
+            console.log('USER TEST CREDENTIALS');
+            console.log({
+                email: user.email,
+                password: 'user',
+                appID: newCredentials.appID,
+                appSecret: newCredentials.appSecret
+            });
+            console.log('==============');
+        }
     }
 }
 
@@ -177,6 +188,100 @@ enum VisualizationType {
     Heatmap = 'Heatmap',
 }
 
+const todayDate = new Date();
+const startDate = new Date(todayDate);
+startDate.setMonth(startDate.getMonth() - 1);
+
+const endDate = new Date(todayDate);
+endDate.setMonth(endDate.getMonth() + 1);
+
+const reports: Report[] = [
+    {
+        "filters": [
+            {
+                "type": "mouse"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "absolu" as DataType,
+        "visualizationType": "Heatmap" as VisualizationType
+    },
+    {
+        "filters": [
+            {
+                "type": "pageVisited"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "absolu" as DataType,
+        "visualizationType": "KPI" as VisualizationType
+    },
+    {
+        "filters": [
+            {
+                "type": "connexion"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "absolu" as DataType,
+        "visualizationType": "KPI" as VisualizationType
+    },
+    {
+        "filters": [
+            {
+                "type": "session"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "absolu" as DataType,
+        "visualizationType": "KPI" as VisualizationType
+    },
+    {
+        "filters": [
+            {
+                "type": "pageVisited"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "taux" as DataType,
+        "visualizationType": "Graphe" as VisualizationType
+    },
+    {
+        "filters": [
+            {
+                "type": "pageVisited"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "absolu" as DataType,
+        "visualizationType": "Graphe" as VisualizationType
+    },
+    {
+        "filters": [
+            {
+                "type": "click"
+            }
+        ],
+        "timeScaleStart": startDate,
+        "timeScaleEnd": endDate,
+        "timeScaleStep": 600,
+        "dataType": "taux" as DataType,
+        "visualizationType": "Graphe" as VisualizationType
+    }
+];
+
 interface Report {
     id?: number;
     filters: any;
@@ -188,6 +293,29 @@ interface Report {
 }
 
 async function seedReports() {
+    const users = await prisma.user.findMany();
+
+    for (const user of users) {
+        for (const report of reports) {
+            await prisma.report.create({
+                data: {
+                    filters: report.filters,
+                    timeScaleStart: report.timeScaleStart,
+                    timeScaleEnd: report.timeScaleEnd,
+                    timeScaleStep: report.timeScaleStep,
+                    dataType: report.dataType,
+                    visualizationType: report.visualizationType,
+                    user: {
+                        connect: {
+                            id: user.id
+                        }
+                    }
+                }
+            });
+        }
+    };
+
+    /*
     const filters = ['mouse', 'click', 'session', 'pageVisited', 'connexion'];
     const users = await prisma.user.findMany();
     for (let i = 0; i < 5; i++) {
@@ -256,6 +384,7 @@ async function seedReports() {
             }
         });
     }
+    */
 }
 
 /* ====================
