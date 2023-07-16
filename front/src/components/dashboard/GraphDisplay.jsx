@@ -47,15 +47,16 @@ const GraphDisplay = ({events, report}) => {
     useEffect(() => {
         const data = events.reduce((acc, event) => {
             let value = 1;
+            const dateId = event.date.split('T')[0];
 
             if (event.data && !isNaN(event.data)) {
                 value = event.data;
             }
 
-            if (acc[event.date]) {
-                acc[event.date] += value;
+            if (acc[dateId]) {
+                acc[dateId] += value;
             } else {
-                acc[event.date] = value;
+                acc[dateId] = value;
             }
             return acc;
         }, {});
