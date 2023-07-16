@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { findReports } from "../services/ReportsService";
-import ReportsList from "../components/reports/ReportsList";
+import ReportsList from "../components/dashboard/ReportsList";
 
 export default function DashboardPage() {
     const [reports, setReports] = useState([]);
