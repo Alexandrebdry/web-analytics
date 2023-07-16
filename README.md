@@ -53,6 +53,12 @@ password: user
 3. Link your app (ItetsuLaTable) to the analytics API using appID and appSecret logged during the seeding.
 You need to change credentials in src/App.jsx and in src/views/AProposView.jsx
 
-5. Launch the test website (ItetsuLaTable) and navigate on it to add some data to the analytics API : http://localhost
+4. Launch the test website (ItetsuLaTable) and navigate on it to add some data to the analytics API : http://localhost to see how to use the SDK in front app go to front-sdk/readme.md
 
-6.  to see how to use the SDK in front app go to front-sdk/readme.md
+5. Use the admin credentials to connect to the backoffice and see the data for all the applications managed by this application: http://localhost:5173
+```bash
+email: admin@admin.fr
+password: admin
+```
+
+6. The admin user can also manage the users of the application and manage the others applications.
