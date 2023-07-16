@@ -58,6 +58,9 @@ export class EventController {
         }
 
         filters.userId = req.user.id;
+        if (req.user.roles.includes('ROLE_ADMIN')) {
+            filters.userId = report.userId;
+        }
 
         return await this.eventService.findByFilters(filters);
     }
